@@ -297,7 +297,7 @@ export default function CreateInterpretation({ token, user }) {
                             </div>
                         </div>
 
-                        <article className="w-full p-2 h-64 border border-inputBg bg-white overflow-y-scroll">
+                        <article className="w-full p-2 h-auto border border-inputBg bg-white overflow-y-scroll">
 
                             {generateInterpretation(interpretationContent)}
 
