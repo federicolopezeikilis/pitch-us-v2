@@ -71,18 +71,18 @@ export default function UploadPhoto({ token, user }) {
                             Choose you image
                         </label>
                         {filePath && <p>{filePath}</p>}
+
+                        <input
+                            type="file"
+                            accept=".png, .jpg, .jpeg"
+                            id="profileImage"
+                            name="profileImage"
+                            className="hidden"
+                            onChange={handleFileChange}
+                        />
                     </div>
 
 
-
-                    <input
-                        type="file"
-                        accept=".png, .jpg, .jpeg"
-                        id="profileImage"
-                        name="profileImage"
-                        className="hidden"
-                        onChange={handleFileChange}
-                    />
 
                     {!file.isTypeAllowed && <p>Only .png, .jpg, .jpeg formats are allowed</p>}
                     {!file.isSizeAllowed && <p>{`Only a file with less than 5 MB are allowed. You file has ${file.size}`}</p>}

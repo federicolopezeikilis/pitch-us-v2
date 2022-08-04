@@ -41,7 +41,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
                   <li
                     className={'min-w-[112px] h-28 rounded-lg ' +
                       (index % 4 === 0 ? 'bg-gradient-orange' : index % 4 === 1 ? 'bg-gradient-purple' : index % 4 === 2 ? 'bg-gradient-yellow' : 'bg-gradient-green')}
-                    key={index}>
+                    key={index*1000}>
                     <Link href={`/artist/${artist.name}`}>
                       <a className="w-full h-full p-2 flex items-end text-xl font-bold text-white">{artist.name}</a>
                     </Link>
@@ -66,7 +66,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
                   <li
                     className={'min-w-[112px] h-28 rounded-lg ' +
                       (index % 4 === 0 ? 'bg-gradient-yellow' : index % 4 === 1 ? 'bg-gradient-green' : index % 4 === 2 ? 'bg-gradient-orange' : 'bg-gradient-purple')}
-                    key={index}>
+                    key={index * 10}>
                     <Link href={`/artist/${artist.name}`}>
                       <a className="w-full h-full p-2 flex items-end text-xl font-bold text-white">{artist.name}</a>
                     </Link>
@@ -86,7 +86,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
             <ul className="h-48 px-4 flex flex-col items-center overflow-x-auto scrollbar-hide gap-2">
 
               {interpretationsOfFollowed.map(interpretation => {
-                return <InterpretationProfileItem interpretation={interpretation} user={interpretation.user} />
+                return <InterpretationProfileItem interpretation={interpretation} user={interpretation.user} key={interpretation.id} />
               })}
 
             </ul>
@@ -100,7 +100,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
             <ul className="h-48 px-4 flex flex-col items-center overflow-x-auto scrollbar-hide gap-2">
 
               {mostVisitedInterpretations.map(interpretation => {
-                return <InterpretationProfileItem interpretation={interpretation} user={interpretation.user} />
+                return <InterpretationProfileItem interpretation={interpretation} user={interpretation.user} key={interpretation.id*10} />
               })}
 
             </ul>
