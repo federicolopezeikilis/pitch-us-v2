@@ -64,7 +64,7 @@ export default function UploadPhoto({ token, user }) {
                     onSubmit={handleFormSubmit}
                     className="flex flex-col gap-4">
 
-                    <div class="flex items-center gap-2">
+                    <div className="flex items-center gap-2">
                         <label
                             htmlFor="profileImage"
                             className="h-8 w-fit px-4 py-2 rounded-3xl shrink-0 flex items-center justify-center font-medium bg-myblue text-white" >
