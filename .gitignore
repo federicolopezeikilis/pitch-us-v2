@@ -1,0 +1,3 @@
+api/src/config/
+.env
+.env.local

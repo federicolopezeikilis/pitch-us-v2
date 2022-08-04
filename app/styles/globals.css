@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    * {
+        @apply box-border;
+        @apply m-0;
+    }
+
+    main {
+        @apply h-full;
+        @apply w-full;
+        @apply my-20;
+        @apply overflow-y-scroll;
+    }
+
+    li {
+        @apply list-none;
+    }
+
+    svg {
+        @apply w-screen;
+    }
+}
+
+@layer utilities {
+    .bg-gradient-orange {
+      background: linear-gradient(
+        50.99deg,
+        #EF476F 0%,
+        #FF9F0A 100%
+      );
+    }
+    .bg-gradient-purple {
+        background: linear-gradient(
+            50.99deg,
+            #5E5CE6 0%,
+            #EF476F 100%
+        );
+    }
+    .bg-gradient-yellow {
+        background: linear-gradient(
+            50.99deg,
+            #FF9F0A 0%,
+            #27A080 100%
+        );
+    }
+    .bg-gradient-green {
+        background: linear-gradient(
+            50.99deg,
+            #27A080 0%,
+            #5E5CE6 100%
+        );
+    }
+}
+
+/* @layer components {
+    .input {
+        @apply [-webkit-appearance: none];
+    }
+} */
+
+
+/* input[type="search"]::-webkit-search-decoration {
+    @apply [-webkit-appearance: none];
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+    @apply [-webkit-appearance: none];
+}
+
+input[type="search"]::-webkit-search-results-button {
+    @apply [-webkit-appearance: none];
+}
+
+input[type="search"]::-webkit-search-results-decoration {
+    @apply [-webkit-appearance: none];
+} */

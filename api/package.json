@@ -1,0 +1,38 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx mocha src/**/**.spec.js",
+    "test-inspect": "npx mocha --inspect-brk src/**/**.spec.js",
+    "start": "node src",
+    "start-inspect": "node --inspect-brk src",
+    "start-nodemon": "npx nodemon src",
+    "start-nodemon-inspect": "npx nodemon --inspect-brk src"
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "description": "",
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
+    "busboy": "^1.6.0",
+    "data": "file:../data",
+    "dotenv": "^16.0.1",
+    "errors": "file:../errors",
+    "express": "^4.18.1",
+    "firebase-admin": "^11.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.5",
+    "nodemon": "^2.0.16",
+    "request": "^2.88.2",
+    "validators": "file:../validators",
+    "xhr": "^2.6.0",
+    "xhr2": "^0.2.1"
+  }
+}
