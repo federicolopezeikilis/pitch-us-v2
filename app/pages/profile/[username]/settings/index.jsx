@@ -4,7 +4,6 @@ import { verifyTokenAndRedirect } from '../../../../helpers'
 import { useRouter } from 'next/router'
 import { ChevronRightImage, Context, FlexColSection, Footer, Header } from '../../../../components'
 import { useContext } from 'react'
-import { decodeJWTPayload } from '../../../../utils'
 
 export default function Settings({ user }) {
     const router = useRouter()
