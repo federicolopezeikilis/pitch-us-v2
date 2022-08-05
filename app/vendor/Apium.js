@@ -63,8 +63,12 @@ class Apium {
         } else return new Promise((resolve, reject) => {
             let xhr
 
+            console.log('call to API')
+
             const callRecursive = (method, urlOrPath, options) => {
                 xhr = new XMLHttpRequest
+
+                console.log('call to API 2')
 
                 xhr.addEventListener('load', event => {
                     const { status, responseText: payload } = event.target
