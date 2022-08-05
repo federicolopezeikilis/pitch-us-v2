@@ -149,7 +149,7 @@ export default function CreateInterpretation({ token, user }) {
     const onEditInterpretation = async () => setPreview(false)
 
     const onSubmitInterpretation = async event => {
-        
+
         event.preventDefault()
 
         try {
@@ -335,7 +335,7 @@ export default function CreateInterpretation({ token, user }) {
 export async function getServerSideProps({ req, res }) {
     const token = await verifyTokenAndRedirect(req, res)
 
-    if(!token) return
+    if (!token) return { props: {} }
 
     const user = await retrieveUser(token)
 
