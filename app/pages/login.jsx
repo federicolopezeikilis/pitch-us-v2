@@ -30,7 +30,7 @@ export default function Login() {
         }
     }
     return (
-        <FlexColSection className="min-h-[-webkit-fill-available] py-4 bg-primary gap-10 justify-center items-center">
+        <FlexColSection className="min-h-[-webkit-fill-available] py-4 bg-primary gap-5 justify-center items-center">
             <Logo className="w-72 h-72 drop-shadow-custom-logo rounded-full bg-white" />
             <LoginForm className="px-4" onSubmit={onFormSubmit} />
         </FlexColSection>
