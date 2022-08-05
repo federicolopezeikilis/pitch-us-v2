@@ -47,7 +47,7 @@ export default function UserProfile({ token, userProfile, isOwnProfile, userIsFo
                     <figure className="w-fit flex flex-col items-center justify-center gap-4">
                         <img
                             className="m-0 w-28 h-28 rounded-full"
-                            src={`http://localhost:8080/api/users/${userProfile.id}/image`} />
+                            src={`${process.env.NEXT_PUBLIC_API_URL}/users/${userProfile.id}/image`} />
                         <figcaption className="w-fit font-bold text-xl text-mygrey">{userProfile.username}</figcaption>
                     </figure>
 
