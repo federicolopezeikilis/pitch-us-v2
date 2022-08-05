@@ -335,6 +335,8 @@ export default function CreateInterpretation({ token, user }) {
 export async function getServerSideProps({ req, res }) {
     const token = await verifyTokenAndRedirect(req, res)
 
+    if(!token) return
+
     const user = await retrieveUser(token)
 
     return { props: { token, user } }
