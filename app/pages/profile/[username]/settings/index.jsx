@@ -80,6 +80,8 @@ export default function Settings({ user }) {
 export async function getServerSideProps({ req, res }) {
     const token = await verifyTokenAndRedirect(req, res)
 
+    if (!token) return { props: {} }
+
     const user = await retrieveUser(token)
 
     return { props: { user } }

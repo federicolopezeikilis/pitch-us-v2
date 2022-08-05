@@ -110,6 +110,8 @@ export default function UploadPhoto({ token, user }) {
 export async function getServerSideProps({ req, res }) {
     const token = await verifyTokenAndRedirect(req, res)
 
+    if (!token) return { props: {} }
+
     const user = await retrieveUser(token)
 
     return { props: { token, user } }
