@@ -29,7 +29,7 @@ export default function Register() {
     }
 
     return (
-        <FlexColSection className="min-h-screen bg-primary gap-5 justify-center items-center">
+        <FlexColSection className="min-h-[-webkit-fill-available] bg-primary gap-5 justify-center items-center">
             <Logo className="w-72 h-72 drop-shadow-custom-logo rounded-full bg-white" />
             <RegisterForm className="px-4" onSubmit={onFormSubmit} />
             <div className="w-full gap-2 flex justify-center">
