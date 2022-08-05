@@ -49,7 +49,7 @@ export default function Interpretation({ token, interpretation, user }) {
 
     return (
         <>
-            <div className={'flex flex-col h-screen' + (chordView ? ' brightness-50' : '')}>
+            <div className={'flex flex-col h-[-webkit-fill-available]' + (chordView ? ' brightness-50' : '')}>
                 {/* <header className="w-full bg-white px-4 pt-4 pb-1 gap-4 shadow-custom-items z-50">
                     <div className="flex flex-col gap-4">
                         <button className="w-8 h-8" onClick={onBackClick} >

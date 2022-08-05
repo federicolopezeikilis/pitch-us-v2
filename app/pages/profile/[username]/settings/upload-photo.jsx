@@ -56,7 +56,7 @@ export default function UploadPhoto({ token, user }) {
     }
 
     return (
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-[-webkit-fill-available]">
             <Header title="Upload Photo" />
 
             <FlexColSection className="p-4">

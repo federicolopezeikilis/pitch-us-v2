@@ -23,7 +23,7 @@ export default function Artist({ songs, user }) {
 
     const onFavoriteClick = () => likedArtist === false ? setLikedArtist(true) : setLikedArtist(false)
 
-    return <div className="flex flex-col h-screen">
+    return <div className="flex flex-col h-[-webkit-fill-available]">
         <header className="w-full bg-white p-4 gap-4 shadow-custom-items">
             <div className="flex flex-col">
                 <ChevronLeftImage className="w-8 h-8" onClick={onBackClick} />

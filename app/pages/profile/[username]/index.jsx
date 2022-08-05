@@ -38,7 +38,7 @@ export default function UserProfile({ token, userProfile, isOwnProfile, userIsFo
     }
 
     return (
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-[-webkit-fill-available]">
 
             <Header title="Profile" user={isOwnProfile ? user : null} />
 

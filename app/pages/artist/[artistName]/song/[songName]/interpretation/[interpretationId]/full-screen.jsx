@@ -16,7 +16,7 @@ export default function FullScreenInterpretation({ interpretation }) {
 
     return (
         <>
-            <div className={`flex flex-col justify-center gap-2 bg-primary h-screen m-0 p-4` + (chordView ? ' brightness-50' : '')}>
+            <div className={`flex flex-col justify-center gap-2 bg-primary h-[-webkit-fill-available] m-0 p-4` + (chordView ? ' brightness-50' : '')}>
                 <header className="flex justify-between shrink-0">
                     <h1 className="font-bold text-xl text-mygrey">{songName}</h1>
                     <Link href={`/artist/${artistName.split(' ').join('-').toLowerCase()}/song/${songName.split(' ').join('-').toLowerCase()}/interpretation/${interpretation.id}`}>

@@ -17,7 +17,7 @@ export default function Settings({ user }) {
     }
 
     return (
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-[-webkit-fill-available]">
             <Header title="Profile" />
 
             <FlexColSection className="flex-1 overflow-y-auto">
