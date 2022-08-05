@@ -99,7 +99,7 @@ export default function Interpretation({ token, interpretation, user }) {
                             <a className="w-fit flex items-center gap-1">
                                 <img
                                     className="w-12 h-12 rounded-full"
-                                    src={`http://localhost:8080/api/users/${interpreterId}/image`}
+                                    src={`${process.env.NEXT_PUBLIC_API_URL}/users/${interpreterId}/image`}
                                 />
                                 <Title3>{username}</Title3>
                             </a>

@@ -25,7 +25,7 @@ export default function Settings({ user }) {
                 <figure className="w-full px-4 pt-2 flex gap-4 items-center border-b border-b-inputBg">
                     <img
                         className="w-16 h-16 rounded-full"
-                        src={`http://localhost:8080/api/users/${user.id}/image`} />
+                        src={`${process.env.NEXT_PUBLIC_API_URL}/users/${user.id}/image`} />
                     <p className="text-myblack font-bold">{user.username}</p>
                 </figure>
 
