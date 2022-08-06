@@ -9,17 +9,17 @@ if (typeof XMLHttpRequest === 'undefined') {
 }
 
 function MyApp({ Component, pageProps }) {
-  return <div className="h-[-webkit-fill-available]">
+  return <>
     <Head>
       <title>PitchUs</title>
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1" />
     </Head>
-    <div className="box-border w-full min-h-[-webkit-fill-available] h-full bg-white">
+    <div className="box-border w-full h-[-webkit-fill-available] bg-white">
       <AppWrapper>
         <Component {...pageProps} />
       </AppWrapper>
     </div>
-  </div>
+  </>
 }
 
 export default MyApp
