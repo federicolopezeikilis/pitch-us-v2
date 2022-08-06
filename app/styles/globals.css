@@ -8,15 +8,15 @@
         @apply m-0;
     }
 
-    html, body {
+    html, body, body > div:first-child, div#__next {
         @apply h-full;
     }
     
-    body > div:first-child, div#__next {
+     /* {
         @apply h-[-webkit-fill-available];
         @apply h-[-moz-available];
         @apply h-full;
-    }
+    } */
 
     main {
         @apply h-full;
