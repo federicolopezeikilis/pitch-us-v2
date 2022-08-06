@@ -13,9 +13,9 @@
     }
     
     body > div:first-child, div#__next {
-        @apply h-full;
         @apply h-[-webkit-fill-available];
         @apply h-[-moz-available];
+        @apply h-full;
     }
 
     main {
