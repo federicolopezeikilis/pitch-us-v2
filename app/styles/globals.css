@@ -31,8 +31,8 @@
 
 @layer utilities {
     .height-available {
-        h-[-webkit-fill-available];
-        h-[-moz-available];
+        height: -webkit-fill-available;
+        height: -moz-available;
     }
     .bg-gradient-orange {
       background: linear-gradient(
