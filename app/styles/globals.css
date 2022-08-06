@@ -8,6 +8,10 @@
         @apply m-0;
     }
 
+    html, body {
+        @apply min-h-[-webkit-fill-available]
+    }
+
     main {
         @apply h-full;
         @apply w-full;
