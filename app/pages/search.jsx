@@ -63,7 +63,7 @@ export default function Search({ user }) {
 
     const handleOnUsersTagClick = () => setTag('users')
 
-    return <div className="flex flex-col min-h-full">
+    return <div className="flex flex-col h-full">
         <Header className="pb-2" title="Search" />
         <FlexColSection className="py-4 flex-1 overflow-y-auto items-center gap-4" >
 

@@ -24,7 +24,7 @@ export default function Song({ interpretations, user }) {
 
     const onFavoriteClick = () => likedSong === false ? setLikedSong(true) : setLikedSong(false)
 
-    return <div className="flex flex-col h-[-webkit-fill-available]">
+    return <div className="flex flex-col h-full">
         <header className="w-full bg-white p-4 gap-4 shadow-custom-items z-50">
             <div className="flex flex-col gap-4">
                 <button className="w-8 h-8" onClick={onBackClick} >
