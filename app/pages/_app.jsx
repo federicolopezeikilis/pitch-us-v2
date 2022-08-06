@@ -9,7 +9,7 @@ if (typeof XMLHttpRequest === 'undefined') {
 }
 
 function MyApp({ Component, pageProps }) {
-  return <>
+  return <div className="h-[-webkit-fill-available]">
     <Head>
       <title>PitchUs</title>
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1" />
@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
       </AppWrapper>
     </div>
-  </>
+  </div>
 }
 
 export default MyApp
