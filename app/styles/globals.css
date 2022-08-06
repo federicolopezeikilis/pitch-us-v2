@@ -8,7 +8,7 @@
         @apply m-0;
     }
 
-    html, body {
+    html, body, body > div:first-child, div#__next {
         @apply h-[-webkit-fill-available]
     }
 
