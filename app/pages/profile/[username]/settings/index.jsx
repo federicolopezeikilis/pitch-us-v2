@@ -17,7 +17,7 @@ export default function Settings({ user }) {
     }
 
     return (
-        <div className="flex flex-col h-full">
+        <>
             <Header title="Profile" />
 
             <FlexColSection className="flex-1 overflow-y-auto">
@@ -71,7 +71,7 @@ export default function Settings({ user }) {
             </FlexColSection>
 
             <Footer user={user} page="user-session" />
-        </div>
+        </>
 
     )
 

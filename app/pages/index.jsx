@@ -24,7 +24,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
   }
 
   return (
-    <div className={'flex flex-col h-full'}>
+    <>
       <Header title="Explore" />
 
       <FlexColSection className={"bg-primary flex-1 overflow-y-auto" + (dialogOpen && dialogOpen !== 'close' ? ' brightness-50' : '')}>
@@ -110,7 +110,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
       </FlexColSection >
 
       <Footer user={user} page="home" />
-    </div >
+    </ >
   )
 }
 

@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }) {
       <title>PitchUs</title>
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1" />
     </Head>
-    <div className="box-border w-full min-h-[-webkit-fill-available] h-full bg-white">
+    <div className="box-border w-full h-full flex flex-col bg-white">
       <AppWrapper>
         <Component {...pageProps} />
       </AppWrapper>

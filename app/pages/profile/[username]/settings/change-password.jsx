@@ -30,7 +30,7 @@ export default function ChangePassword({ token, user }) {
     }
 
     return (
-        <div className="flex flex-col h-full">
+        <>
             <header className="shadow-custom-items pt-7 px-4 pb-4">
                 <Link href={`/profile/${user.username}/settings`}>
                     <ChevronLeftImage className="w-8 h-8 float-left" />
@@ -63,7 +63,7 @@ export default function ChangePassword({ token, user }) {
 
             </FlexColSection>
             <Footer page="user-session" user={user} />
-        </div>
+        </>
     )
 }
 

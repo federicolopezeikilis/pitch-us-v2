@@ -38,7 +38,7 @@ export default function UserProfile({ token, userProfile, isOwnProfile, userIsFo
     }
 
     return (
-        <div className="flex flex-col h-full">
+        <>
 
             <Header title="Profile" user={isOwnProfile ? user : null} />
 
@@ -95,7 +95,7 @@ export default function UserProfile({ token, userProfile, isOwnProfile, userIsFo
             </FlexColSection >
 
             <Footer user={user} page={isOwnProfile && 'user-session'} />
-        </div >
+        </ >
     )
 }
 

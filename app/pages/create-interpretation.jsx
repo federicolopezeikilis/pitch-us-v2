@@ -173,7 +173,7 @@ export default function CreateInterpretation({ token, user }) {
     }
 
     return (
-        <div className="flex flex-col h-full">
+        <>
             {!preview ? <><Header title="Add New" />
                 <FlexColSection className="bg-primary flex-1 overflow-y-auto">
 
@@ -328,7 +328,7 @@ export default function CreateInterpretation({ token, user }) {
             }
 
             <Footer page="create-interpretation" user={user} />
-        </div>
+        </>
     )
 }
 

@@ -56,7 +56,7 @@ export default function UploadPhoto({ token, user }) {
     }
 
     return (
-        <div className="flex flex-col h-full">
+        <>
             <Header title="Upload Photo" />
 
             <FlexColSection className="p-4">
@@ -103,7 +103,7 @@ export default function UploadPhoto({ token, user }) {
 
             <Footer user={user} page="user-session" />
 
-        </div>
+        </>
     )
 }
 
