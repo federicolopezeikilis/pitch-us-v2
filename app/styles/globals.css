@@ -8,7 +8,11 @@
         @apply m-0;
     }
 
-    html, body, body > div:first-child, div#__next {
+    html, body {
+        @apply h-full;
+    }
+    
+    body > div:first-child, div#__next {
         @apply h-[-webkit-fill-available];
         @apply h-[-moz-available];
         @apply h-[stretch]
