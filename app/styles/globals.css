@@ -9,7 +9,8 @@
     }
 
     html, body, body > div:first-child, div#__next {
-        @apply h-[-webkit-fill-available]
+        @apply h-[-webkit-fill-available];
+        @apply h-[-moz-available];
     }
 
     main {
@@ -29,6 +30,10 @@
 }
 
 @layer utilities {
+    .height-available {
+        h-[-webkit-fill-available];
+        h-[-moz-available];
+    }
     .bg-gradient-orange {
       background: linear-gradient(
         50.99deg,
@@ -58,26 +63,3 @@
         );
     }
 }
-
-/* @layer components {
-    .input {
-        @apply [-webkit-appearance: none];
-    }
-} */
-
-
-/* input[type="search"]::-webkit-search-decoration {
-    @apply [-webkit-appearance: none];
-}
-
-input[type="search"]::-webkit-search-cancel-button {
-    @apply [-webkit-appearance: none];
-}
-
-input[type="search"]::-webkit-search-results-button {
-    @apply [-webkit-appearance: none];
-}
-
-input[type="search"]::-webkit-search-results-decoration {
-    @apply [-webkit-appearance: none];
-} */
