@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useState, useContext } from "react"
 import { Context, Title3, ChevronLeftImage, Footer, Slider, FlexColSection, SaveFavoriteImage, CircleChordButton, ExpandImage, RateYellowFullImage, RankInterpretationByUser } from '../../../../../../../components'
 import { retrieveInterpretationFromSong, retrieveUser, toggleOrUpdateRankToInterpretation } from '../../../../../../../logic'
@@ -13,10 +14,12 @@ export default function Interpretation({ token, interpretation, user }) {
 
     const [rankByUser, setRankByUser] = useState(rankByUserRetrieved ? rankByUserRetrieved.amount : null)
 
+    const router = useRouter()
+
     const artistName = interpretation.song.artist.name
     const songId = interpretation.song._id
     const songName = interpretation.song.name
-    const username = interpretation.user.username    
+    const username = interpretation.user.username
     const interpreterId = interpretation.user._id
 
     const rankAverage = calculateInterpretationRankAverage(interpretation.ranks)
@@ -24,6 +27,8 @@ export default function Interpretation({ token, interpretation, user }) {
     const onChordClick = chord => setChordView(chord)
 
     const onCloseChordClick = () => setChordView(null)
+
+    const onBackClick = () => router.back()
 
     const onRankClick = async amount => {
         try {
@@ -80,11 +85,9 @@ export default function Interpretation({ token, interpretation, user }) {
                 <header className="w-full bg-white pb-4 pr-4 pt-4 shadow-custom-items z-50">
                     <div className="w-full flex justify-between">
                         <div className="w-full flex">
-                            <Link href={`/artist/${artistName}/song/${songName}`}>
-                                <a className="w-8 h-8 flex justify-center align-center">
-                                    <ChevronLeftImage />
-                                </a>
-                            </Link>
+                            <button className="w-8 h-8 justify-center align-center" onClick={onBackClick} >
+                                <ChevronLeftImage />
+                            </button>
                             <h1 className="text-xl text-myblack font-bold flex items-center">{songName}</h1>
                         </div>
                         <SaveFavoriteImage className="w-8 h-8" />

@@ -29,7 +29,8 @@ export default function Song({ interpretations, user }) {
             <div className="flex flex-col gap-4">
                 <button className="w-8 h-8" onClick={onBackClick} >
                     <ChevronLeftImage />
-                </button>                <div className="flex flex-col justify-between gap-2">
+                </button>
+                <div className="flex flex-col justify-between gap-2">
                     <div className="flex gap-2">
                         <SongIconImage className="w-6 h-6" color="grey" />
                         <Title2>Song</Title2>
@@ -87,7 +88,7 @@ export async function getServerSideProps({ params, req, res }) {
     const token = await verifyTokenAndRedirect(req, res)
 
     const interpretations = await retrieveInterpretationsFromSong(params.songName, params.artistName)
-    
+
     if (token) {
         const user = await retrieveUser(token)
 
