@@ -7,23 +7,23 @@ function SiteMap() {
 export async function getServerSideProps({ res }) {
     const baseUrl = 'https://pitch-us.vercel.app'
 
-        const staticPages = fs
-            .readdirSync('./.next/server/pages')
-            .filter((staticPage) => {
-                return ![
-                    '_app.js',
-                    '_document.js',
-                    '_error.js',
-                    'sitemap.xml.js',
-                    'artist',
-                    'profile',
-                    'logout.js',
-                    'index.js'
-                ].includes(staticPage);
-            })
-            .map((staticPagePath) => {
-                return `${baseUrl}/${staticPagePath.split('.').slice(0, -1).join('.')}`;
-            });
+    const staticPages = fs
+        .readdirSync('./.next/server/pages')
+        .filter((staticPage) => {
+            return ![
+                '_app.js',
+                '_document.js',
+                '_error.js',
+                'sitemap.xml.js',
+                'artist',
+                'profile',
+                'logout.js',
+                'index.js'
+            ].includes(staticPage);
+        })
+        .map((staticPagePath) => {
+            return `${baseUrl}/${staticPagePath.split('.').slice(0, -1).join('.')}`;
+        });
 
     const artistsWithSongs = await retrieveAllArtistsWithSongs()
 
@@ -41,7 +41,7 @@ export async function getServerSideProps({ res }) {
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      ${staticPages
+    ${staticPages
             .map((url) => {
                 return `
             <url>
@@ -51,14 +51,14 @@ export async function getServerSideProps({ res }) {
           `;
             })
             .join("")}
-        ${dynamicPages
+    ${dynamicPages
             .map((url) => {
                 return `
-                <url>
-                  <loc>${url}</loc>
-                  <priority>1.0</priority>
-                </url>
-              `;
+            <url>
+              <loc>${url}</loc>
+              <priority>0.8</priority>
+            </url>
+            `;
             })
             .join("")}
     </urlset>
