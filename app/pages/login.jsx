@@ -3,6 +3,7 @@ import { authenticateUser } from '../logic'
 import { setCookie, verifyTokenAndRedirect } from '../helpers'
 import { useRouter } from 'next/router'
 import { FlexColSection, Logo, LoginForm, Context } from '../components'
+import Head from 'next/head'
 
 export default function Login() {
     const router = useRouter()
@@ -30,10 +31,15 @@ export default function Login() {
         }
     }
     return (
-        <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center">
-            <Logo className="w-72 h-72 drop-shadow-custom-logo rounded-full bg-white" />
-            <LoginForm className="px-4" onSubmit={onFormSubmit} />
-        </FlexColSection>
+        <>
+            <Head>
+                <title>Login</title>
+            </Head>
+            <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center">
+                <Logo className="w-72 h-72 drop-shadow-custom-logo rounded-full bg-white" />
+                <LoginForm className="px-4" onSubmit={onFormSubmit} />
+            </FlexColSection>
+        </>
     )
 }
 
