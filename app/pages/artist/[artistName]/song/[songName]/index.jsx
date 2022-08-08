@@ -40,7 +40,7 @@ export default function Song({ interpretations, user }) {
                         <FavoriteImage className="w-6 h-6 -mb-1" full={likedSong} onClick={onFavoriteClick} />
                     </div>
                 </div>
-                <Link href={`/artist/${artistName}`}>
+                <Link href={`/artist/${artistName.toLowerCase().replaceAll(' ', '-')}`}>
                     <a className="w-fit">
                         <Title3>{artistName}</Title3>
                     </a>

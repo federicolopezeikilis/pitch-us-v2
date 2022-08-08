@@ -129,7 +129,7 @@ export default function Interpretation({ token, interpretation, user }) {
                             <div className="w-full flex justify-between items-center">
                                 <p className="text-xl font-bold my-grey">Interpretation</p>
 
-                                <Link href={`/artist/${artistName.split(' ').join('-').toLowerCase()}/song/${songName.split(' ').join('-').toLowerCase()}/interpretation/${interpretation.id}/full-screen`} >
+                                <Link href={`/artist/${artistName..toLowerCase().replaceAll(' ', '-')}/song/${songName..toLowerCase().replaceAll(' ', '-')}/interpretation/${interpretation.id}/full-screen`} >
                                     <a><ExpandImage className="w-8 h-8" /></a>
                                 </Link>
 
