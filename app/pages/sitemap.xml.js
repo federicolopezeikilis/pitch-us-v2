@@ -11,9 +11,13 @@ export async function getServerSideProps({ res }) {
             .readdirSync('./.next/server/pages')
             .filter((staticPage) => {
                 return ![
-                    '_app.jsx',
-                    '_document.jsx', -
-                    'sitemap.xml.jsx',
+                    '_app.js',
+                    '_document.js',
+                    '_error.js',
+                    'sitemap.xml.js',
+                    'artist',
+                    'profile',
+                    'logout'
                 ].includes(staticPage);
             })
             .map((staticPagePath) => {
