@@ -8,7 +8,7 @@ export async function getServerSideProps({ res }) {
     const baseUrl = 'https://pitch-us.vercel.app'
 
         const staticPages = fs
-            .readdirSync('./.next/server')
+            .readdirSync('./.next/server/pages')
             .filter((staticPage) => {
                 return ![
                     '_app.jsx',
