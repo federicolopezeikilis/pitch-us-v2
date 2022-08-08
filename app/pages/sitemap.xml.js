@@ -17,11 +17,12 @@ export async function getServerSideProps({ res }) {
                     'sitemap.xml.js',
                     'artist',
                     'profile',
-                    'logout'
+                    'logout.js',
+                    'index.js'
                 ].includes(staticPage);
             })
             .map((staticPagePath) => {
-                return `${baseUrl}/${staticPagePath}`;
+                return `${baseUrl}/${staticPagePath.split('.').slice(0, -1).join('.')}`;
             });
 
     const artistsWithSongs = await retrieveAllArtistsWithSongs()
