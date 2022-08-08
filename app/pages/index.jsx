@@ -42,7 +42,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
                     className={'min-w-[112px] h-28 rounded-lg ' +
                       (index % 4 === 0 ? 'bg-gradient-orange' : index % 4 === 1 ? 'bg-gradient-purple' : index % 4 === 2 ? 'bg-gradient-yellow' : 'bg-gradient-green')}
                     key={index*1000}>
-                    <Link href={`/artist/${artist.name}`}>
+                    <Link href={`/artist/${artist.name.toLowerCase().replaceAll(' ', '-')}`}>
                       <a className="w-full h-full p-2 flex items-end text-xl font-bold text-white">{artist.name}</a>
                     </Link>
                   </li>
@@ -67,7 +67,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
                     className={'min-w-[112px] h-28 rounded-lg ' +
                       (index % 4 === 0 ? 'bg-gradient-yellow' : index % 4 === 1 ? 'bg-gradient-green' : index % 4 === 2 ? 'bg-gradient-orange' : 'bg-gradient-purple')}
                     key={index * 10}>
-                    <Link href={`/artist/${artist.name}`}>
+                    <Link href={`/artist/${artist.name.toLowerCase().replaceAll(' ', '-')}`}>
                       <a className="w-full h-full p-2 flex items-end text-xl font-bold text-white">{artist.name}</a>
                     </Link>
                   </li>
