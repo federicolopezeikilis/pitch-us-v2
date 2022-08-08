@@ -1,3 +1,6 @@
 # Allow all crawlers
 User-agent: *
 Allow: /
+
+# Sitemap
+Sitemap: https://pitch-us.vercel.app/sitemap.xml
