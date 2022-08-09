@@ -23,6 +23,9 @@ module.exports = async () => {
 
         delete interpretation._id
         delete interpretation.__v
+        delete interpretation.content
+        delete interpretation.date
+        delete interpretation.visits
     })
 
     interpretations.forEach(interpretation => {
