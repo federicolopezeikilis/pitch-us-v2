@@ -33,7 +33,7 @@ export default function Login() {
     return (
         <>
             <Head>
-                <title>Login</title>
+                <title>Login | Pitch-us</title>
             </Head>
             <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center">
                 <Logo className="w-72 h-72 drop-shadow-custom-logo rounded-full bg-white" />
