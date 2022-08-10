@@ -4,6 +4,7 @@ import { retrieveUser, updatePassword } from '../../../../logic'
 import { verifyTokenAndRedirect } from '../../../../helpers'
 import { useContext } from 'react'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 export default function ChangePassword({ token, user }) {
     const { handleFeedback } = useContext(Context)
@@ -31,6 +32,10 @@ export default function ChangePassword({ token, user }) {
 
     return (
         <>
+            <Head>
+                <title>Change password | PitchUs</title>
+            </Head>
+
             <header className="shadow-custom-items pt-7 px-4 pb-4">
                 <Link href={`/profile/${user.username}/settings`}>
                     <ChevronLeftImage className="w-8 h-8 float-left" />

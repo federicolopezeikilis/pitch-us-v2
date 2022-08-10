@@ -1,9 +1,10 @@
+import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useState, useContext } from 'react'
 import { verifyTokenAndRedirect, returnFileSize } from '../../../../helpers'
 import { verifyFile } from '../../../../utils'
 import { updateUserImage, retrieveUser } from '../../../../logic'
 import { ButtonGreen, Context, FlexColSection, Footer, Header } from '../../../../components'
-import { useRouter } from 'next/router'
 
 export default function UploadPhoto({ token, user }) {
     const [file, setFile] = useState({ isTypeAllowed: true, isSizeAllowed: true, size: null })
@@ -57,6 +58,10 @@ export default function UploadPhoto({ token, user }) {
 
     return (
         <>
+            <Head>
+                <title>Upload profile photo or avatar | PitchUs</title>
+            </Head>
+
             <Header title="Upload Photo" />
 
             <FlexColSection className="p-4">

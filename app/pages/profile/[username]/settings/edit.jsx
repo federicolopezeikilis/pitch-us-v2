@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Head from 'next/head'
 import { useContext } from 'react'
 import { retrieveUser, updateUser } from '../../../../logic'
 import { verifyTokenAndRedirect } from '../../../../helpers'
@@ -29,6 +30,10 @@ export default function EditProfile({ token, user }) {
 
     return (
         <>
+            <Head>
+                <title>Edit profile | PitchUs</title>
+            </Head>
+
             <header className="shadow-custom-items pt-7 px-4 pb-4">
                 <Link href={`/profile/${user.username}/settings`}>
                     <ChevronLeftImage className="w-8 h-8 float-left" />
