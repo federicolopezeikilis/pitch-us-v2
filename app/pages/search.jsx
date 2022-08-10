@@ -1,7 +1,8 @@
+import Head from 'next/head'
 import { findArtistsSongsAndUsers, retrieveUser } from '../logic'
-import { Header, Footer, SearchForm, FlexColSection } from '../components'
+import { Header, Footer, SearchForm, FlexColSection, Context } from '../components'
 import { verifyTokenAndRedirect } from '../helpers'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { ArtistsSongsAndUsersResultsList } from "../components"
 
 export default function Search({ user }) {
@@ -9,47 +10,38 @@ export default function Search({ user }) {
     const [tag, setTag] = useState('all')
     const [queryState, setQueryState] = useState(null)
 
-    const waiting = 0
+    const { handleFeedback } = useContext(Context)
 
-    const onSearchSubmit = async event => {
-        if (event)
-            event.preventDefault()
+    let timeoutID
 
+    const onSearchSubmit = async query => {
         try {
-            const artistsSongsAndUsersFounded = await findArtistsSongsAndUsers(queryState, tag)
+            const artistsSongsAndUsersFounded = await findArtistsSongsAndUsers(query, tag)
 
             setArtistsSongsAndUsers(artistsSongsAndUsersFounded)
         } catch (error) {
-            // TODO HANDLE FEEDBACK
+            handleFeedback('error', 'Search error', error.message)
         }
     }
 
     useEffect(() => {
-        if (queryState) onSearchSubmit()
-    }, [queryState, tag])
-
-    const onChangeQueryTimeout = async (query, waitingPreviousValue) => {
-        if (waitingPreviousValue === waiting) setQueryState(query)
-    }
+        if(queryState) onSearchSubmit(queryState)
+    }, [tag])
 
     const onChangeQuery = async event => {
         const query = event.target.value
 
         if (query.length > 2) {
-            const waitingActualValue = waiting + 1
+            if(timeoutID) 
+                clearTimeout(timeoutID)
 
-            waiting++
-
-            setTimeout(function () {
-                onChangeQueryTimeout(query, waitingActualValue)
-            }, 500)
-
+            timeoutID = setTimeout(() => onSearchSubmit(query), 500)
+            
+            setQueryState(query)
         } else {
-            waiting++
-
             setArtistsSongsAndUsers(null)
-
-            if (queryState !== null) setQueryState(null)
+            
+            setQueryState(null)
         }
     }
 
@@ -64,9 +56,13 @@ export default function Search({ user }) {
     const handleOnUsersTagClick = () => setTag('users')
 
     return <>
-        <Header className="pb-2" title="Search" />
-        <FlexColSection className="py-4 flex-1 overflow-y-auto items-center gap-4" >
+        <Head>
+            <title>Search chords and tab from artists and songs | PitchUs</title>
+        </Head>
 
+        <Header className="pb-2" title="Search" />
+
+        <FlexColSection className="py-4 flex-1 overflow-y-auto items-center gap-4" >
             <SearchForm className="px-4" tag={tag}
                 onChangeInput={onChangeQuery}
                 onCancelClick={onCancelClick}
@@ -84,6 +80,7 @@ export default function Search({ user }) {
                 />}
 
         </FlexColSection>
+
         <Footer user={user} page="search" ></Footer>
     </>
 }

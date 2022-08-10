@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState, useContext } from "react"
-import { Context, Title3, ChevronLeftImage, Footer, Slider, FlexColSection, SaveFavoriteImage, CircleChordButton, ExpandImage, RateYellowFullImage, RankInterpretationByUser } from '../../../../../../../components'
+import { Context, ChevronLeftImage, Footer, Slider, FlexColSection, SaveFavoriteImage, CircleChordButton, ExpandImage, RateYellowFullImage, RankInterpretationByUser } from '../../../../../../../components'
 import { retrieveInterpretationFromSong, retrieveUser, toggleOrUpdateRankToInterpretation } from '../../../../../../../logic'
 import { verifyTokenAndRedirect, getChords, generateInterpretation, generateChordImages, calculateInterpretationRankAverage } from "../../../../../../../helpers"
+import { stringToUrl } from '../../../../../../../utils'
 
 export default function Interpretation({ token, interpretation, user }) {
     const { handleFeedback } = useContext(Context)
@@ -55,33 +56,7 @@ export default function Interpretation({ token, interpretation, user }) {
     return (
         <>
             <div className={'flex flex-col h-full' + (chordView ? ' brightness-50' : '')}>
-                {/* <header className="w-full bg-white px-4 pt-4 pb-1 gap-4 shadow-custom-items z-50">
-                    <div className="flex flex-col gap-4">
-                        <button className="w-8 h-8" onClick={onBackClick} >
-                            <ChevronLeftImage />
-                        </button>
-                        <div className="flex flex-col justify-between gap-2">
-                            <div className="flex gap-2">
-                                <InterpretationIconImage className="w-6 h-6 flex items-center justify-center" color="grey" />
-                                <Title2>Interpretation</Title2>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <Title>{song.name}</Title>
-                                <SaveFavoriteImage className="w-8 h-8 -mb-1" />
-                            </div>
-                        </div>
-                        <Link href={`/profile/${username}`}>
-                            <a className="w-fit flex items-center gap-1">
-                                <img
-                                    className="w-12 h-12 rounded-full"
-                                    src={`http://localhost:8080/api/users/${interpreterId}/image`}
-                                />
-                                <Title3>{username}</Title3>
-                            </a>
-                        </Link>
-                    </div>
-                </header> */}
-
+               
                 <header className="w-full bg-white pb-4 pr-4 pt-4 shadow-custom-items z-50">
                     <div className="w-full flex justify-between">
                         <div className="w-full flex">
@@ -97,17 +72,15 @@ export default function Interpretation({ token, interpretation, user }) {
                 <div className="bg-primary flex-1 overflow-y-auto ">
                     <FlexColSection className="p-4 items- h-fit">
 
-                        {/* ADDED */}
                         <Link href={`/profile/${username}`}>
                             <a className="w-fit flex items-center gap-1">
                                 <img
                                     className="w-12 h-12 rounded-full"
                                     src={`${process.env.NEXT_PUBLIC_API_URL}/users/${interpreterId}/image`}
                                 />
-                                <Title3>{username}</Title3>
+                                <h2 className="text-secondarygrey">{username}</h2>
                             </a>
                         </Link>
-                        {/* ADDED */}
 
                         <div className="w-full py-4 flex flex-col gap-2">
                             <h3 className="flex items-center text-xl text-myblack font-bold">Chords</h3>
@@ -129,16 +102,14 @@ export default function Interpretation({ token, interpretation, user }) {
                             <div className="w-full flex justify-between items-center">
                                 <p className="text-xl font-bold my-grey">Interpretation</p>
 
-                                <Link href={`/artist/${artistName.toLowerCase().replaceAll(' ', '-')}/song/${songName.toLowerCase().replaceAll(' ', '-')}/interpretation/${interpretation.id}/full-screen`} >
+                                <Link href={`/artist/${stringToUrl(artistName)}/song/${stringToUrl(songName)}/interpretation/${interpretation.id}/full-screen`} >
                                     <a><ExpandImage className="w-8 h-8" /></a>
                                 </Link>
 
                             </div>
 
                             <article className="w-full p-2 h-64 border border-inputBg bg-white overflow-y-scroll">
-
                                 {generateInterpretation(interpretation.content, onChordClick)}
-
                             </article>
                         </div>
 
@@ -167,6 +138,7 @@ export default function Interpretation({ token, interpretation, user }) {
                 </div>
                 <Footer user={user} />
             </div>
+
             {chordView &&
                 <Slider chord={chordView} onCloseChordClick={onCloseChordClick} >
                     {generateChordImages(chordView)}

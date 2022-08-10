@@ -18,6 +18,7 @@ module.exports = {
     findArtists: require('./findArtists'),
     getTopArtists: require('./getTopArtists'),
     retrieveMostVisitedArtists: require('./retrieveMostVisitedArtists'),
+    retrieveAllArtistsWithSongs: require('./retrieveAllArtistsWithSongs'),
 
     /* SONGS */
     createSong: require('./createSong'),

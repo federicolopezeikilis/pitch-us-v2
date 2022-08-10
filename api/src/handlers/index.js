@@ -19,13 +19,14 @@ module.exports = {
 
     /* ARTISTS */
     handleCreateArtist: require('./handleCreateArtist'),
-    handlefindArtists: require('./handlefindArtists'),
+    handlefindArtists: require('./handleFindArtists'),
     handleGetTopArtists: require('./handleGetTopArtists'),
     handleRetrieveMostVisitedArtists: require('./handleRetrieveMostVisitedArtists'),
+    handleRetrieveAllArtistsWithSongs: require('./handleRetrieveAllArtistsWithSongs'),
 
     /* SONGS */
     handleCreateSong: require('./handleCreateSong'),
-    handlefindSongs: require('./handlefindSongs'),
+    handlefindSongs: require('./handleFindSongs'),
     handleRetrieveSong: require('./handleRetrieveSong'),
     handleRetrieveSongsOfArtist: require('./handleRetrieveSongsOfArtist'),
     

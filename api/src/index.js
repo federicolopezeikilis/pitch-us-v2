@@ -26,6 +26,7 @@ const {
     handlefindArtists,
     handleGetTopArtists,
     handleRetrieveMostVisitedArtists,
+    handleRetrieveAllArtistsWithSongs,
 
     /* SONGS */
     handleCreateSong,
@@ -105,6 +106,7 @@ const { env: { MONGODB_URL, PORT = 8080 }, argv: [, , port = PORT] } = process
         routes.get('/artists', handlefindArtists)
         routes.post('/artists/top', jsonBodyParser, handleGetTopArtists),
         routes.get('/artists/most-visited', handleRetrieveMostVisitedArtists)
+        routes.get('/artists/all', handleRetrieveAllArtistsWithSongs)
 
         /* SONGS */
         routes.post('/songs', jsonBodyParser, handleCreateSong)

@@ -2,7 +2,7 @@ import { useState, useContext } from 'react'
 import { verifyTokenAndRedirect, returnFileSize } from '../../../../helpers'
 import { verifyFile } from '../../../../utils'
 import { updateUserImage, retrieveUser } from '../../../../logic'
-import { ButtonBlue, ButtonGreen, Context, FlexColSection, Footer, Header } from '../../../../components'
+import { ButtonGreen, Context, FlexColSection, Footer, Header } from '../../../../components'
 import { useRouter } from 'next/router'
 
 export default function UploadPhoto({ token, user }) {
@@ -81,8 +81,6 @@ export default function UploadPhoto({ token, user }) {
                             onChange={handleFileChange}
                         />
                     </div>
-
-
 
                     {!file.isTypeAllowed && <p>Only .png, .jpg, .jpeg formats are allowed</p>}
                     {!file.isSizeAllowed && <p>{`Only a file with less than 5 MB are allowed. You file has ${file.size}`}</p>}

@@ -1,8 +1,7 @@
 import { CHORD_REGEX } from './constants'
 import { validateInterpretationContent } from "validators"
 import { Fragment } from 'react'
-import { getChords } from './'
-import { ButtonBlue, ChordButton } from '../components'
+import { ChordButton } from '../components'
 
 export function generateInterpretation(interpretation, handlerChordClick) {
     validateInterpretationContent(interpretation)

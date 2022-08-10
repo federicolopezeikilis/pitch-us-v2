@@ -1,8 +1,8 @@
 import { ArtistItem, SongItem, UserItem } from '../../components'
 
-export const ArtistsSongsAndUsersResultsList = ({ className, children, results, songs, ...props }) => {
+export const ArtistsSongsAndUsersResultsList = ({ className, children, results, songs }) => {
     return (
-        <ul className={`w-full bg-primary flex flex-col list-none shadow-custom-items ${className}`} {...props}>{children}
+        <ul className={`w-full bg-primary flex flex-col list-none shadow-custom-items ${className || ''}`}>{children}
 
             {results && results.artists &&
                 results.artists.map(artist => <ArtistItem artist={artist} key={artist.id} />)

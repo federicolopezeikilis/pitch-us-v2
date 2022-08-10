@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { HomeImage } from "../../components"
 
-export const HomeLink = ({ className, children, pageOn, onClick, ...props }) => {
+export const HomeLink = ({ className, pageOn, onClick }) => {
     return (
-        <Link href="/" className={`${className}`} {...props}>
+        <Link href="/" className={`${className || ''}`}>
             <a onClick={onClick}>
                 <HomeImage pageOn={pageOn} />
             </a>

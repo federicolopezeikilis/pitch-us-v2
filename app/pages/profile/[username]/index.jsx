@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Head from 'next/head'
 import { useState, useContext } from 'react'
 import { Context, ButtonGreen, FlexColSection, Footer, Header, InterpretationProfileItem, RateBlueImage } from "../../../components"
 import { calculateInterpretationRankAverage, verifyTokenAndRedirect } from "../../../helpers"
@@ -17,7 +17,7 @@ export default function UserProfile({ token, userProfile, isOwnProfile, userIsFo
 
     const userRank = calculateInterpretationRankAverage(rankArray)
 
-    const handleOnFollowingClick = () => {
+    const handleFollowingClick = () => {
         try {
             if (token) {
                 toggleFollow(token, userProfile.id)
@@ -39,24 +39,29 @@ export default function UserProfile({ token, userProfile, isOwnProfile, userIsFo
 
     return (
         <>
+            <Head>
+                <title>{userProfile.username} profile | PitchUs</title>
+            </Head>
 
             <Header title="Profile" user={isOwnProfile ? user : null} />
 
             <FlexColSection className="flex-1 overflow-y-auto bg-primary pt-4 flex items-center gap-4">
+
                 <div className="w-fit flex flex-col gap-4">
                     <figure className="w-fit flex flex-col items-center justify-center gap-4">
                         <img
                             className="m-0 w-28 h-28 rounded-full"
-                            src={`${process.env.NEXT_PUBLIC_API_URL}/users/${userProfile.id}/image`} />
+                            src={`${process.env.NEXT_PUBLIC_API_URL}/users/${userProfile.id}/image`}
+                            alt={`${userProfile.name} profile photo or avatar`} />
                         <figcaption className="w-fit font-bold text-xl text-mygrey">{userProfile.username}</figcaption>
                     </figure>
 
-                    {!isOwnProfile && <ButtonGreen
-                        onClick={handleOnFollowingClick}
-                        active={!following}>
-                        {following ? 'unfollow' : 'follow'}
-                    </ButtonGreen>}
-
+                    {!isOwnProfile &&
+                        <ButtonGreen
+                            onClick={handleFollowingClick}
+                            active={!following}>
+                            {following ? 'unfollow' : 'follow'}
+                        </ButtonGreen>}
                 </div>
 
                 <div className="w-full grid px-4 grid-cols-3 grid-rows-1 gap-2">
@@ -65,20 +70,16 @@ export default function UserProfile({ token, userProfile, isOwnProfile, userIsFo
                             <RateBlueImage />
                             <p className="leading-4 text-myblue font-bold">{userRank}</p>
                         </div>
-                        <p className="leading-4 text-xs text-myblue">USER RANK</p>
+                        <h3 className="leading-4 text-xs text-myblue">USER RANK</h3>
                     </div>
-                    <Link href="#">
-                        <a className="border border-inputBg rounded-lg bg-white h-16 flex flex-col justify-center items-center gap-2">
-                            <p className="leading-4 text-myblue font-bold">{amountFollowers}</p>
-                            <p className="leading-4 text-xs text-myblue">FOLLOWERS</p>
-                        </a>
-                    </Link>
-                    <Link href="#">
-                        <a className="border border-inputBg rounded-lg bg-white h-16 flex flex-col justify-center items-center gap-2">
-                            <p className="leading-4 text-myblue font-bold">{amountFollowing}</p>
-                            <p className="leading-4 text-xs text-myblue">FOLLOWING</p>
-                        </a>
-                    </Link>
+                    <div className="border border-inputBg rounded-lg bg-white h-16 flex flex-col justify-center items-center gap-2">
+                        <p className="leading-4 text-myblue font-bold">{amountFollowers}</p>
+                        <h3 className="leading-4 text-xs text-myblue">FOLLOWERS</h3>
+                    </div>
+                    <div className="border border-inputBg rounded-lg bg-white h-16 flex flex-col justify-center items-center gap-2">
+                        <p className="leading-4 text-myblue font-bold">{amountFollowing}</p>
+                        <h3 className="leading-4 text-xs text-myblue">FOLLOWING</h3>
+                    </div>
                 </div>
 
                 <div className="w-full px-4 flex flex-col">
