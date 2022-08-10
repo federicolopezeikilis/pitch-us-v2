@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import Link from 'next/link'
+import Head from 'next/head'
 import { registerUser } from '../logic'
 import { useRouter } from 'next/router'
 import { verifyTokenAndRedirect } from '../helpers'
@@ -10,14 +11,12 @@ export default function Register() {
     const router = useRouter()
 
     const onFormSubmit = async event => {
-        event.preventDefault()
-
-        const email = event.target.email.value
-        const username = event.target.username.value
-        const password = event.target.password.value
-        const repeatPassword = event.target.repeatPassword.value
-
         try {
+            const email = event.target.email.value
+            const username = event.target.username.value
+            const password = event.target.password.value
+            const repeatPassword = event.target.repeatPassword.value
+
             await registerUser(username, email, password, repeatPassword)
 
             handleFeedback('success', 'Register', 'successfully registered')
@@ -29,16 +28,22 @@ export default function Register() {
     }
 
     return (
-        <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center">
-            <Logo className="w-72 h-72 drop-shadow-custom-logo rounded-full bg-white" />
-            <RegisterForm className="px-4" onSubmit={onFormSubmit} />
-            <div className="w-full gap-2 flex justify-center">
-                <p className="text-myblack text-xs">Already have an account ?</p>
-                <Link href="/login">
-                    <BlueAnchor>Log In</BlueAnchor>
-                </Link>
-            </div>
-        </FlexColSection>
+        <>
+            <Head>
+                <title>Sign up | PitchUs</title>
+            </Head>
+
+            <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center">
+
+                <Logo className="w-60 h-60 drop-shadow-custom-logo rounded-full bg-white" />
+                <RegisterForm className="px-4" onSubmit={onFormSubmit} />
+                <div className="w-full gap-2 flex justify-center">
+                    <p className="text-myblack text-xs">Already have an account ?</p>
+                    <BlueAnchor href="/login">Log In</BlueAnchor>
+                </div>
+
+            </FlexColSection>
+        </>
     )
 }
 

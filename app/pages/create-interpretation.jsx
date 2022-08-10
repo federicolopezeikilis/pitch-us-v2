@@ -1,8 +1,10 @@
-import { Header, Footer, FlexColSection, ChevronRightImage, ChevronLeftImage, CircleChordButton, AuxiliarDiv, AuxiliarDivSearch, ArtistItem, SongItem, Context } from '../components'
-import { verifyTokenAndRedirect, getChords, generateInterpretation } from '../helpers'
+import { Header, Footer, FlexColSection, ChevronRightImage, AuxiliarDivSearch, ArtistItem, SongItem, Context, InterpretationPreview, CreateInterpretationPanel } from '../components'
+import { verifyTokenAndRedirect } from '../helpers'
 import { findArtists, retrieveSongsOfArtist, addInterpretationToSong, createSong, retrieveUser, createArtist } from '../logic'
 import { useContext, useState } from 'react'
+import { stringToUrl } from '../utils'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 export default function CreateInterpretation({ token, user }) {
     const [artistState, setArtistState] = useState('active')
@@ -11,7 +13,6 @@ export default function CreateInterpretation({ token, user }) {
     const [artist, setArtist] = useState(null)
 
     const [songState, setSongState] = useState('inactive')
-    const [querySong, setQuerySong] = useState(null)
     const [songsOfArtist, setSongsOfArtist] = useState(null)
     const [songsDisplayed, setSongsDisplayed] = useState(null)
     const [song, setSong] = useState(null)
@@ -23,7 +24,7 @@ export default function CreateInterpretation({ token, user }) {
 
     const { handleFeedback } = useContext(Context)
 
-    const onChangeQueryArtist = async event => {
+    const handleChangeInputQueryArtist = async event => {
         const query = event.target.value
 
         if (query) {
@@ -43,42 +44,39 @@ export default function CreateInterpretation({ token, user }) {
             }
 
         } else {
-            setQueryArtist(false)
+            setQueryArtist(null)
             setArtistsDisplayed(null)
+
+            if (artistState === 'create')
+                setArtistState('active')
         }
     }
 
-    const onClickCreateArtist = event => {
+    const handleCreateArtist = event => handleChosenArtist({ name: event.target.input.value })
 
-        event.preventDefault()
-
-        const artistName = event.target.input.value
-
-        setArtist({ name: artistName })
-        setArtistsDisplayed(null)
-        setArtistState('intermediate')
-        setSongState('create')
-    }
-
-    const onClickArtist = async artistChosen => {
+    const handleChosenArtist = async artistChosen => {
         setArtist(artistChosen)
         setArtistsDisplayed(null)
-        setArtistState('intermediate')
-        setSongState('active')
+        setArtistState('chosen')
 
-        try {
-            const songs = await retrieveSongsOfArtist(artistChosen.name)
+        if (artistChosen.id) {
+            setSongState('active')
 
-            if (songs.length > 0) {
-                setSongsOfArtist(songs)
-                setSongsDisplayed(songs)
+            try {
+                const songs = await retrieveSongsOfArtist(artistChosen.name)
+
+                if (songs.length > 0) {
+                    setSongsOfArtist(songs)
+                    setSongsDisplayed(songs)
+                }
+            } catch (error) {
+                handleFeedback('error', 'Error', error.message)
             }
-        } catch (error) {
-            handleFeedback('error', 'Error', error.message)
-        }
+        } else
+            setSongState('create')
     }
 
-    const onClickChangeArtist = () => {
+    const handleChangeArtist = () => {
         setArtist(null)
         setSongsOfArtist(null)
         setSongsDisplayed(null)
@@ -88,15 +86,7 @@ export default function CreateInterpretation({ token, user }) {
         if (song) setSong(null)
     }
 
-    const onClickCreateSong = event => {
-        event.preventDefault()
-
-        setSong({ name: event.target.input.value })
-        setSongsDisplayed(null)
-        setSongState('intermediate')
-    }
-
-    const onChangeQuerySong = async event => {
+    const handleChangeInputQuerySong = event => {
         const query = event.target.value
 
         if (query) {
@@ -115,43 +105,42 @@ export default function CreateInterpretation({ token, user }) {
                 }
             } else
                 setSongsDisplayed(songsOfArtist)
-        }
+        } else if (songState === 'create')
+            setSongState('active')
     }
 
-    const onClickSong = async songChosen => {
+    const handleCreateSong = event => handleChosenSong({ name: event.target.input.value })
+
+    const handleChosenSong = songChosen => {
         setSong(songChosen)
         setSongsDisplayed(null)
-        setSongState('intermediate')
+        setSongState('chosen')
     }
 
-    const onClickChangeSong = () => {
+    const handleChangeSong = () => {
         setSong(null)
         setSongsDisplayed(songsOfArtist)
         setSongState('active')
     }
 
-    const onPreviewInterpretation = async event => {
+    const handleInterpretationPreview = event => {
         event.preventDefault()
 
         const content = event.target.textarea.value
 
-        if (content.length < 200) {
+        if (content.length < 200)
             handleFeedback('info', 'Interpretation shorter than required', 'Interpretation content should have at least 200 characters')
 
-            return
+        else {
+            setInterpretationContent(content)
+
+            setPreview(true)
         }
-
-        setInterpretationContent(content)
-
-        setPreview(true)
     }
 
-    const onEditInterpretation = async () => setPreview(false)
+    const handleOnEditInterpretation = () => setPreview(false)
 
-    const onSubmitInterpretation = async event => {
-
-        event.preventDefault()
-
+    const handleSubmitInterpretation = async () => {
         try {
             if (!artist.id) {
 
@@ -166,7 +155,8 @@ export default function CreateInterpretation({ token, user }) {
 
             handleFeedback('success', 'Interpretation created!', 'Redirecting to your new interpretation')
 
-            router.push(`/artist/${artist.name.split(' ').join('-')}/song/${song.name.split(' ').join('-')}/interpretation/${interpretationId}`)
+            router.push(`/artist/${stringToUrl(artist.name)}/song/${stringToUrl(song.name)}/interpretation/${interpretationId}`)
+
         } catch (error) {
             handleFeedback('error', 'Error', error.message)
         }
@@ -174,157 +164,104 @@ export default function CreateInterpretation({ token, user }) {
 
     return (
         <>
-            {!preview ? <><Header title="Add New" />
-                <FlexColSection className="bg-primary flex-1 overflow-y-auto">
+            <Head>
+                <title>Create your own interpretation of a song | PitchUs</title>
+            </Head>
 
-                    <div className="w-full p-4 flex gap-2">
-                        {
-                            !artist ?
-                                <>
-                                    <AuxiliarDiv color="blue" type="artist" />
-                                    <AuxiliarDiv color="light-blue" type="song" />
-                                    <AuxiliarDiv color="light-blue" type="interpretation" />
-                                </>
-                                :
-                                !song ?
-                                    <>
-                                        <AuxiliarDiv color="white" type="artist" />
-                                        <AuxiliarDiv color="blue" type="song" />
-                                        <AuxiliarDiv color="light-blue" type="interpretation" />
-                                    </>
-                                    :
-                                    <>
-                                        <AuxiliarDiv color="white" type="artist" />
-                                        <AuxiliarDiv color="white" type="song" />
-                                        <AuxiliarDiv color="blue" type="interpretation" />
-                                    </>
-                        }
-                    </div>
-
-                    <AuxiliarDivSearch
-                        state={artistState}
-                        type="artist"
-                        content={artist}
-                        onChange={onChangeQueryArtist}
-                        onEditClick={onClickChangeArtist}
-                        onCreate={onClickCreateArtist}
-                        query={queryArtist}
-                    />
-
-                    {artistsDisplayed && <ul>{
-                        artistsDisplayed.map(artist => {
-                            return <ArtistItem
-                                className="px-2"
-                                artist={artist}
-                                key={artist.id}
-                                onClick={function () {
-                                    onClickArtist(artist)
-                                }} />
-                        })}
-                    </ul>
-                    }
-
-                    <AuxiliarDivSearch
-                        state={songState}
-                        type="song"
-                        content={song}
-                        onChange={onChangeQuerySong}
-                        onEditClick={onClickChangeSong}
-                        onCreate={onClickCreateSong}
-                        query={querySong}
-                    />
-
-                    {songsDisplayed && <ul>{
-                        songsDisplayed.map(song => {
-                            return <SongItem
-                                className="px-2"
-                                song={song}
-                                key={song.id}
-                                onClick={function () {
-                                    onClickSong(song)
-                                }}
-                            />
-                        })}
-                    </ul>
-                    }
-
-
-                    {!song ?
-                        <div className="mt-6 w-full px-4 gap-1">
-                            <h3 className="font-medium text-placeholder">Interpretation</h3>
-                            <div className="w-full h-80 border border-inputBg rounded bg-white">
-
-                            </div>
-                        </div>
-                        :
-                        <form
-                            className="w-full px-4 gap-1"
-                            onSubmit={onPreviewInterpretation}>
-
-                            <h3 className="font-medium text-myblack">Write (or paste) here your interpretation</h3>
-                            <textarea
-                                className="w-full h-80 border border-inputBg rounded p-2 bg-white focus:outline-none text-sm text-myblack"
-                                name="textarea"
-                                defaultValue={interpretationContent}
-                            />
-
-                            <div className="mt-3 flex items-center justify-center">
-                                <button className="w-44 rounded-full bg-mygreen py-4 flex justify-center items-center gap-4">
-                                    <p className="font-medium text-white">Show Preview</p>
-                                    <ChevronRightImage className="mt-0.5 w-6 h-6" color="white" />
-                                </button>
-                            </div>
-                        </form>
-                    }
-
-                </FlexColSection>
-            </>
-
-                :
-
+            {!preview ?
                 <>
-                    <Header title="Preview" />
-                    <FlexColSection className="bg-primary flex-1 overflow-y-auto p-4">
+                    <Header title="Add New" />
 
-                        <div className="w-full py-4 flex flex-col gap-2">
-                            <h3 className="flex items-center text-xl text-myblack font-bold">Chords</h3>
-                            <div className="w-full flex flex-wrap gap-2">
-                                {getChords(interpretationContent).map((chord, index) => {
-                                    return (
-                                        <CircleChordButton key={index * 10}>{chord}</CircleChordButton>
-                                    )
+                    <FlexColSection className="bg-primary flex-1 overflow-y-auto">
+
+                        <CreateInterpretationPanel artist={artist} song={song} />
+
+                        <AuxiliarDivSearch
+                            state={artistState}
+                            type="artist"
+                            content={artist}
+                            onInput={handleChangeInputQueryArtist}
+                            onEditClick={handleChangeArtist}
+                            onCreate={handleCreateArtist}
+                            query={queryArtist}
+                        />
+
+                        {artistsDisplayed &&
+                            <ul>{
+                                artistsDisplayed.map(artist => {
+                                    return <ArtistItem
+                                        className="px-2"
+                                        artist={artist}
+                                        key={artist.id}
+                                        page="create-interpretation"
+                                        onClick={() => handleChosenArtist(artist)}
+                                    />
                                 })}
+                            </ul>
+                        }
+
+                        <AuxiliarDivSearch
+                            state={songState}
+                            type="song"
+                            content={song}
+                            onInput={handleChangeInputQuerySong}
+                            onEditClick={handleChangeSong}
+                            onCreate={handleCreateSong}
+                        />
+
+                        {songsDisplayed &&
+                            <ul>{
+                                songsDisplayed.map(song => {
+                                    return <SongItem
+                                        className="px-2"
+                                        song={song}
+                                        key={song.id}
+                                        page="create-interpretation"
+                                        onClick={() => handleChosenSong(song)}
+                                    />
+                                })}
+                            </ul>
+                        }
+
+                        {!song ?
+                            <div className="mt-6 w-full px-4 gap-1">
+                                <h2 className="font-medium text-placeholder">Interpretation</h2>
+                                <div className="w-full h-80 border border-inputBg rounded bg-white">
+
+                                </div>
                             </div>
-                        </div>
+                            :
+                            <form
+                                className="w-full px-4 gap-1"
+                                onSubmit={handleInterpretationPreview}>
 
-                        <article className="w-full p-2 h-auto border border-inputBg bg-white overflow-y-scroll">
+                                <h2 className="font-medium text-myblack">Write (or paste) here your interpretation</h2>
+                                <textarea
+                                    className="w-full h-80 border border-inputBg rounded p-2 bg-white focus:outline-none text-sm text-myblack"
+                                    name="textarea"
+                                    defaultValue={interpretationContent}
+                                />
 
-                            {generateInterpretation(interpretationContent)}
-
-                        </article>
-
-                        <div className="mt-3 flex items-center justify-center">
-                            <button
-                                className="w-44 rounded-full bg-white py-4 flex justify-center items-center gap-4"
-                                onClick={onEditInterpretation}>
-
-                                <ChevronLeftImage className="mt-0.5 w-6 h-6" color="blue" />
-                                <p className="font-medium text-myblue">Edit</p>
-
-                            </button>
-
-                            <button
-                                className="w-44 rounded-full bg-mygreen py-4 flex justify-center items-center gap-4"
-                                onClick={onSubmitInterpretation}>
-
-                                <p className="font-medium text-white">Publish</p>
-                                <ChevronRightImage className="mt-0.5 w-6 h-6" color="white" />
-
-                            </button>
-                        </div>
+                                <div className="mt-3 flex items-center justify-center">
+                                    <button className="w-44 rounded-full bg-mygreen py-4 flex justify-center items-center gap-4">
+                                        <p className="font-medium text-white">Show Preview</p>
+                                        <ChevronRightImage className="mt-0.5 w-6 h-6" color="white" />
+                                    </button>
+                                </div>
+                            </form>
+                        }
 
                     </FlexColSection>
                 </>
+
+                :
+
+                <InterpretationPreview
+                    content={interpretationContent}
+                    onEditInterpretation={handleOnEditInterpretation}
+                    onSubmitInterpretation={handleSubmitInterpretation}
+                />
+
             }
 
             <Footer page="create-interpretation" user={user} />

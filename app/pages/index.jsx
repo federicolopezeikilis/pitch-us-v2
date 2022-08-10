@@ -2,7 +2,7 @@ import { FlexColSection, Footer, Header, Context, InterpretationProfileItem, Lis
 import { verifyTokenAndRedirect } from "../helpers"
 import { checkSpotifySession, getTopArtists, retrieveUser, retrieveLastInterpretationsOfFollowed, retrieveMostVisitedInterpretations, retrieveMostVisitedArtists } from '../logic'
 import { useContext, useState } from "react"
-import Link from "next/link";
+import Head from 'next/head'
 
 export default function Home({ isSessionActive, topArtists, user, interpretationsOfFollowed, mostVisitedInterpretations, mostVisitedArtists }) {
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -25,6 +25,10 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
 
   return (
     <>
+      <Head>
+        <title>PitchUs | Explore chords of songs | Social medial for musicians</title>
+      </Head>
+
       <Header title="Explore" />
 
       <FlexColSection className={"bg-primary flex-1 overflow-y-auto" + (dialogOpen && dialogOpen !== 'close' ? ' brightness-50' : '')}>
@@ -32,7 +36,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
         {topArtists && topArtists.length > 0 &&
           <List title="Most listened in Spotify">
             {topArtists.map((artist, index) => {
-              return <ArtistSquareItem artist={artist} index={index} key={artist.id * 100} />
+              return <ArtistSquareItem artist={artist} index={index} key={artist.id} />
             })}
           </List>
         }
@@ -40,13 +44,13 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
         {mostVisitedArtists && mostVisitedArtists.length > 0 &&
           <List title="Most popular artists">
             {mostVisitedArtists.map((artist, index) => {
-              return <ArtistSquareItem artist={artist} index={index} key={artist.id * 10} />
+              return <ArtistSquareItem artist={artist} index={index} key={artist.id} />
             })}
           </List>
         }
 
         {interpretationsOfFollowed && interpretationsOfFollowed.length > 0 &&
-          <List className="h-48" title="Recent versions from your contacts">
+          <List className="h-48 flex-col" title="Recent versions from your contacts">
             {interpretationsOfFollowed.map(interpretation => {
               return <InterpretationProfileItem interpretation={interpretation} user={interpretation.user} key={interpretation.id} />
             })}
@@ -54,23 +58,17 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
         }
 
         {mostVisitedInterpretations && mostVisitedInterpretations.length > 0 &&
-          // <div className="py-4 w-full flex flex-col gap-2">
-          //   <h2 className="px-4 text-xl font-bold text-mygrey">Most Popular Interpretations</h2>
-
-          //   <ul className="h-48 px-4 flex flex-col items-center overflow-x-auto scrollbar-hide gap-2">
-          <List className="flex-col h-48" title="Most popular interpretations">
+          <List className="h-48 flex-col" title="Most popular interpretations">
             {mostVisitedInterpretations.map(interpretation => {
-              return <InterpretationProfileItem interpretation={interpretation} user={interpretation.user} key={interpretation.id * 10} />
+              return <InterpretationProfileItem interpretation={interpretation} user={interpretation.user} key={interpretation.id} />
             })}
           </List>
-          //   </ul>
-          // </div>
         }
 
       </FlexColSection >
 
       <Footer user={user} page="home" />
-    </ >
+    </>
   )
 }
 

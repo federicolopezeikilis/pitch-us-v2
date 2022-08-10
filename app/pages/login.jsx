@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { authenticateUser } from '../logic'
 import { setCookie, verifyTokenAndRedirect } from '../helpers'
 import { useRouter } from 'next/router'
-import { FlexColSection, Logo, LoginForm, Context } from '../components'
+import { FlexColSection, Logo, LoginForm, Context, BlueAnchor } from '../components'
 import Head from 'next/head'
 
 export default function Login() {
@@ -11,8 +11,6 @@ export default function Login() {
     const { handleFeedback } = useContext(Context)
 
     const onFormSubmit = async event => {
-        event.preventDefault()
-
         try {
             const email = event.target.email.value
             const password = event.target.password.value
@@ -30,14 +28,20 @@ export default function Login() {
             handleFeedback('error', 'Login failed', error.message)
         }
     }
+    
     return (
         <>
             <Head>
-                <title>Login</title>
+                <title>Login | PitchUs</title>
             </Head>
-            <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center">
-                <Logo className="w-72 h-72 drop-shadow-custom-logo rounded-full bg-white" />
+            
+            <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center gap-10">
+                <Logo className="w-60 h-60 drop-shadow-custom-logo rounded-full bg-white" />
                 <LoginForm className="px-4" onSubmit={onFormSubmit} />
+                <div className="w-full gap-2 flex justify-center">
+                    <p className="text-myblack text-xs">{"Don't have an account ?"}</p>
+                    <BlueAnchor href="/register">Sign Up</BlueAnchor>
+                  </div>
             </FlexColSection>
         </>
     )

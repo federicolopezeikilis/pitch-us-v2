@@ -7,8 +7,11 @@ export function Header({ className, title, page, user, ...props }) {
 
             <h1 className="text-3xl font-bold text-myblack">{title}</h1>
 
-            {title === 'Explore' &&
-                <NotificationImage className="w-8 h-8 flex justify-center items-center" />}
+            {/* {title === 'Explore' &&
+                <nav>
+                    <NotificationImage className="w-8 h-8 flex justify-center items-center" />
+                </nav>
+            } */}
 
             {user &&
                 <Link href={`/profile/${user.username}/settings`}>

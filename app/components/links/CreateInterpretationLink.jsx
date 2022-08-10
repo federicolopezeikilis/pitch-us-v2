@@ -3,7 +3,7 @@ import { CreateInterpretationImage } from ".."
 import { Context } from '../../components'
 import { useContext } from 'react'
 
-export const CreateInterPretationLink = ({ className, children, pageOn, onClick, userLoggedIn, ...props }) => {
+export const CreateInterPretationLink = ({ className, pageOn, onClick, userLoggedIn }) => {
     const { handleFeedback } = useContext(Context)
 
     const handleOnLinkClick = () => {
@@ -12,7 +12,7 @@ export const CreateInterPretationLink = ({ className, children, pageOn, onClick,
     }
 
     return (
-        <Link href={userLoggedIn ? '/create-interpretation' : '/login'} className={`${className}`} {...props}>
+        <Link href={userLoggedIn ? '/create-interpretation' : '/login'} className={`${className || ''}`} >
             <a onClick={function () {
                 onClick()
                 handleOnLinkClick()
