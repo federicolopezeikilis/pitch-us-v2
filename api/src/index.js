@@ -11,6 +11,7 @@ const {
     handleUpdatePassword,
     handleRetrieveUser,
     handleRetrieveUserByUsername,
+    handleRetrieveAllUsernames,
     handleRetrieveInterpretationsOfUser,
     handleUpdateUser,
     handleUpdateUserImage,
@@ -94,6 +95,7 @@ const { env: { MONGODB_URL, PORT = 8080 }, argv: [, , port = PORT] } = process
         routes.patch('/users/auth', jsonBodyParser, handleUpdatePassword)
         routes.get('/users', handleRetrieveUser)
         routes.get('/users/:username/profile', handleRetrieveUserByUsername)
+        routes.get('/users/all', handleRetrieveAllUsernames)
         routes.get('/users/:userId/interpretations', handleRetrieveInterpretationsOfUser)
         routes.patch('/users', jsonBodyParser, handleUpdateUser)
         routes.patch('/users/image', handleUpdateUserImage)

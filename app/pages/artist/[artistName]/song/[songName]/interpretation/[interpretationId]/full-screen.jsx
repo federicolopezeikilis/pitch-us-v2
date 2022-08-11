@@ -1,8 +1,7 @@
 import Link from 'next/link'
 import { useState } from "react"
-import { CrossGreyImage, Slider } from '../../../../../../../components'
+import { CrossGreyImage, Interpretation, Slider, ChordImages } from '../../../../../../../components'
 import { retrieveInterpretationFromSong } from '../../../../../../../logic'
-import { generateInterpretation, generateChordImages } from "../../../../../../../helpers"
 
 export default function FullScreenInterpretation({ interpretation }) {
     const [chordView, setChordView] = useState(null)
@@ -10,7 +9,7 @@ export default function FullScreenInterpretation({ interpretation }) {
     const songName = interpretation.song.name
     const artistName = interpretation.song.artist.name
 
-    const onChordClick = chord => setChordView(chord)
+    const handleChordClick = chord => setChordView(chord)
 
     const onCloseChordClick = () => setChordView(null)
 
@@ -26,13 +25,13 @@ export default function FullScreenInterpretation({ interpretation }) {
                     </Link>
                 </header>
                 <main className="h-full m-0 border border-inputBg bg-white p-2 flex-1 overflow-auto">
-                    {generateInterpretation(interpretation.content, onChordClick)}
+                    <Interpretation content={interpretation.content} onChordClick={handleChordClick} />
                 </main>
             </div>
 
             {chordView &&
                 <Slider chord={chordView} onCloseChordClick={onCloseChordClick} >
-                    {generateChordImages(chordView)}
+                    <ChordImages chord={chordView} />
                 </Slider>}
         </>
     )

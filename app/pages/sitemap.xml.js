@@ -1,5 +1,6 @@
 import fs from "fs"
-import { retrieveAllArtistsWithSongs } from "../logic/retrieveAllArtistsWithSongs";
+import { retrieveAllArtistsWithSongs, retrieveAllUsernames } from "../logic";
+import { stringToUrl } from '../utils'
 
 function SiteMap() {
 }
@@ -25,19 +26,25 @@ export async function getServerSideProps({ res }) {
             return `${baseUrl}/${staticPagePath.split('.').slice(0, -1).join('.')}`;
         });
 
+    debugger
+
     const artistsWithSongs = await retrieveAllArtistsWithSongs()
 
     const dynamicPages = artistsWithSongs.reduce((previousValue, currentArtist) => {
         const arrayOfUrls = currentArtist.songs.map(song => {
-            return `${baseUrl}/artist/${currentArtist.name.toLowerCase().replaceAll(' ', '-')}/song/${song.toLowerCase().replaceAll(' ', '-')}`
+            return `${baseUrl}/artist/${stringToUrl(currentArtist.name)}/song/${stringToUrl(song)}`
         })
 
-        arrayOfUrls.unshift(`${baseUrl}/artist/${currentArtist.name.toLowerCase().replaceAll(' ', '-')}`)
+        arrayOfUrls.unshift(`${baseUrl}/artist/${stringToUrl(currentArtist.name)}`)
 
         previousValue.push(...arrayOfUrls)
 
         return previousValue
     }, [])
+
+    const usernames = await retrieveAllUsernames()
+
+    usernames.forEach(username => dynamicPages.push(`${baseUrl}/profile/${username}`))
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -56,7 +63,7 @@ export async function getServerSideProps({ res }) {
                 return `
             <url>
               <loc>${url}</loc>
-              <priority>0.8</priority>
+              <priority>1.0</priority>
             </url>
             `;
             })

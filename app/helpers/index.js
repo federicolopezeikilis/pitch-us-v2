@@ -1,6 +1,4 @@
 export * from './getChords'
-export * from './generateInterpretation'
-export * from './generateChordImages'
 export * from './verifyTokenAndRedirect'
 export * from './setCookie'
 export * from './removeCookie'

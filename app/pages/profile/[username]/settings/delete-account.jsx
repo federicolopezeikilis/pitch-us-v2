@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Head from 'next/head'
 import { Context, ChevronLeftImage, Fieldset, Input, Label, FlexColSection, Footer } from '../../../../components'
 import { unregisterUser, retrieveUser } from '../../../../logic'
 import { verifyTokenAndRedirect } from '../../../../helpers'
@@ -30,9 +31,15 @@ export default function DeleteAccount({ token, user }) {
 
     return (
         <>
+            <Head>
+                <title>Delete account | PitchUs</title>
+            </Head>
+
             <header className="shadow-custom-items pt-7 px-4 pb-4">
                 <Link href={`/profile/${user.username}/settings`}>
-                    <ChevronLeftImage className="w-8 h-8 float-left" />
+                    <a>
+                        <ChevronLeftImage className="w-8 h-8 float-left" />
+                    </a>
                 </Link>
                 <h1 className="text-xl text-mygrey font-bold">Delete Account</h1>
             </header>

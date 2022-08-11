@@ -28,6 +28,25 @@ export default function Login() {
             handleFeedback('error', 'Login failed', error.message)
         }
     }
+
+    // tryThis(() => {
+    
+    // })
+
+    // function tryThis(callback, handleError) {
+    //     try {
+    //         callback()
+
+    //     } catch(error) {
+    //         if(handleError) {
+    //             handleError(error, () => {
+                    
+    //             })
+    //         } else {
+                
+    //         }
+    //     }
+    // }
     
     return (
         <>

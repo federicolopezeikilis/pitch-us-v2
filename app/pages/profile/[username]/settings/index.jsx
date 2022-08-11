@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Head from 'next/head'
 import { retrieveUser } from '../../../../logic'
 import { verifyTokenAndRedirect } from '../../../../helpers'
 import { useRouter } from 'next/router'
@@ -18,6 +19,10 @@ export default function Settings({ user }) {
 
     return (
         <>
+            <Head>
+                <title>Profile settings | PitchUs</title>
+            </Head>
+
             <Header title="Profile" />
 
             <FlexColSection className="flex-1 overflow-y-auto">

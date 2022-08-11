@@ -1,8 +1,8 @@
-const { data: { keys, chords } } = require('../data/guitar')
-const { GUITAR } = require('./constants')
-import { ChordFigure, CircleChordButton, CrossClose17Image } from '../components'
+const { data: { keys, chords } } = require('../../data/guitar')
+const { GUITAR } = require('../../helpers/constants')
+import { ChordFigure } from '../../components'
 
-export function generateChordImages(chord) {
+export function ChordImages({ chord }) {
     let chordObjectFounded
 
     if (chord.includes('D#'))

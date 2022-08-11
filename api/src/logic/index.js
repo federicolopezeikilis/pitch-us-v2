@@ -6,6 +6,7 @@ module.exports = {
     updatePassword: require('./updatePassword'),
     retrieveUser: require('./retrieveUser'),
     retrieveUserByUsername: require('./retrieveUserByUsername'),
+    retrieveAllUsernames: require('./retrieveAllUsernames'),
     retrieveInterpretationsOfUser: require('./retrieveInterpretationsOfUser'),
     updateUser: require('./updateUser'),
     updateUserImage: require('./updateUserImage'),

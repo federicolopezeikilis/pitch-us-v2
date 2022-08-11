@@ -7,6 +7,7 @@ module.exports = {
     handleUpdatePassword: require('./handleUpdatePassword'),
     handleRetrieveUser: require('./handleRetrieveUser'),
     handleRetrieveUserByUsername: require('./handleRetrieveUserByUsername'),
+    handleRetrieveAllUsernames: require('./handleRetrieveAllUsernames'),
     handleRetrieveInterpretationsOfUser: require('./handleRetrieveInterpretationsOfUser'),
     handleUpdateUser: require('./handleUpdateUser'),
     handleUpdateUserImage: require('./handleUpdateUserImage'),
