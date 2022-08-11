@@ -1,10 +1,11 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState, useContext } from 'react'
 import { verifyTokenAndRedirect, returnFileSize } from '../../../../helpers'
 import { verifyFile } from '../../../../utils'
 import { updateUserImage, retrieveUser } from '../../../../logic'
-import { ButtonGreen, Context, FlexColSection, Footer, Header } from '../../../../components'
+import { ButtonGreen, Context, FlexColSection, Footer, ChevronLeftImage } from '../../../../components'
 
 export default function UploadPhoto({ token, user }) {
     const [file, setFile] = useState({ isTypeAllowed: true, isSizeAllowed: true, size: null })
@@ -62,7 +63,14 @@ export default function UploadPhoto({ token, user }) {
                 <title>Upload profile photo or avatar | PitchUs</title>
             </Head>
 
-            <Header title="Upload Photo" />
+            <header className="shadow-custom-items pt-7 px-4 pb-4">
+                <Link href={`/profile/${user.username}/settings`}>
+                    <a>
+                        <ChevronLeftImage className="w-8 h-8 float-left" />
+                    </a>
+                </Link>
+                <h1 className="text-xl text-mygrey font-bold">Upload Photo</h1>
+            </header>
 
             <FlexColSection className="p-4">
                 <form

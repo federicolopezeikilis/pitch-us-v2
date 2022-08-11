@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState, useContext } from "react"
-import { Context, ChevronLeftImage, Footer, Slider, FlexColSection, SaveFavoriteImage, CircleChordButton, ExpandImage, RateYellowFullImage, RankInterpretationByUser } from '../../../../../../../components'
+import { Interpretation, ChordImages, Context, ChevronLeftImage, Footer, Slider, FlexColSection, SaveFavoriteImage, CircleChordButton, ExpandImage, RateYellowFullImage, RankInterpretationByUser } from '../../../../../../../components'
 import { retrieveInterpretationFromSong, retrieveUser, toggleOrUpdateRankToInterpretation } from '../../../../../../../logic'
-import { verifyTokenAndRedirect, getChords, generateInterpretation, generateChordImages, calculateInterpretationRankAverage } from "../../../../../../../helpers"
+import { verifyTokenAndRedirect, getChords, calculateInterpretationRankAverage } from "../../../../../../../helpers"
 import { stringToUrl } from '../../../../../../../utils'
 
-export default function Interpretation({ token, interpretation, user }) {
+export default function InterpretationPage({ token, interpretation, user }) {
     const { handleFeedback } = useContext(Context)
 
     const [chordView, setChordView] = useState(null)
@@ -25,7 +25,7 @@ export default function Interpretation({ token, interpretation, user }) {
 
     const rankAverage = calculateInterpretationRankAverage(interpretation.ranks)
 
-    const onChordClick = chord => setChordView(chord)
+    const handleChordClick = chord => setChordView(chord)
 
     const onCloseChordClick = () => setChordView(null)
 
@@ -56,7 +56,7 @@ export default function Interpretation({ token, interpretation, user }) {
     return (
         <>
             <div className={'flex flex-col h-full' + (chordView ? ' brightness-50' : '')}>
-               
+
                 <header className="w-full bg-white pb-4 pr-4 pt-4 shadow-custom-items z-50">
                     <div className="w-full flex justify-between">
                         <div className="w-full flex">
@@ -91,7 +91,7 @@ export default function Interpretation({ token, interpretation, user }) {
                                             onClick={event => {
                                                 event.preventDefault()
 
-                                                onChordClick(chord)
+                                                handleChordClick(chord)
                                             }}>{chord}</CircleChordButton>
                                     )
                                 })}
@@ -108,9 +108,12 @@ export default function Interpretation({ token, interpretation, user }) {
 
                             </div>
 
-                            <article className="w-full p-2 h-64 border border-inputBg bg-white overflow-y-scroll">
-                                {generateInterpretation(interpretation.content, onChordClick)}
-                            </article>
+                            <Interpretation
+                                className="w-full p-2 h-64 border border-inputBg bg-white overflow-y-scroll"
+                                content={interpretation.content}
+                                onChordClick={handleChordClick}
+                            />
+
                         </div>
 
                         <div className="mt-4 w-full flex flex-col gap-4">
@@ -141,7 +144,7 @@ export default function Interpretation({ token, interpretation, user }) {
 
             {chordView &&
                 <Slider chord={chordView} onCloseChordClick={onCloseChordClick} >
-                    {generateChordImages(chordView)}
+                    <ChordImages chord={chordView} />
                 </Slider>}
         </>
     )

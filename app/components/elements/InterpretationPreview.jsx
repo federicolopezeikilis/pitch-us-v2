@@ -1,7 +1,7 @@
-import { Header, FlexColSection, CircleChordButton, ChevronLeftImage, ChevronRightImage } from '../../components'
-import { getChords, generateInterpretation } from '../../helpers'
+import { Interpretation, Header, FlexColSection, CircleChordButton, ChevronLeftImage, ChevronRightImage } from '../../components'
+import { getChords } from '../../helpers'
 
-export function InterpretationPreview({ className, content, onEditInterpretation, onSubmitInterpretation }) {
+export function InterpretationPreview({ content, onEditInterpretation, onSubmitInterpretation }) {
     return (
         <>
             <Header title="Preview" />
@@ -19,9 +19,11 @@ export function InterpretationPreview({ className, content, onEditInterpretation
                     </div>
                 </div>
 
-                <article className="w-full p-2 h-auto border border-inputBg bg-white overflow-y-scroll">
-                    {generateInterpretation(content)}
-                </article>
+                <Interpretation
+                    className="w-full p-2 h-auto border border-inputBg bg-white overflow-y-scroll"
+                    content={content}
+                />
+
 
                 <div className="mt-3 flex items-center justify-center">
                     <button

@@ -105,5 +105,5 @@ export async function getServerSideProps(ctx) {
       } else return { props: { isSessionActive, user, interpretationsOfFollowed, mostVisitedInterpretations, mostVisitedArtists } }
     }
 
-  } else return { props: { mostVisitedInterpretations, mostVisitedArtists } }
+  } else return { props: { mostVisitedInterpretations, mostVisitedArtists } } 
 }

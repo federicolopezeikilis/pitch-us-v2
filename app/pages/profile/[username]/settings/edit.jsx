@@ -36,7 +36,9 @@ export default function EditProfile({ token, user }) {
 
             <header className="shadow-custom-items pt-7 px-4 pb-4">
                 <Link href={`/profile/${user.username}/settings`}>
-                    <ChevronLeftImage className="w-8 h-8 float-left" />
+                    <a>
+                        <ChevronLeftImage className="w-8 h-8 float-left" />
+                    </a>
                 </Link>
                 <h1 className="text-xl text-mygrey font-bold">Personal Information</h1>
             </header>

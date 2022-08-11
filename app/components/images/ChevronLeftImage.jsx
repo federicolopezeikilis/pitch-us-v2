@@ -9,7 +9,8 @@ export const ChevronLeftImage = ({ className, children, color, ...props }) => {
             color === 'blue' ?
             '/media/chevron-left-blue.svg':
             '/media/chevron-left.svg'} 
-            height={11.22} width={6.94} />
+            height={11.22}
+            width={6.94} />
         </figure>
     )
 }
