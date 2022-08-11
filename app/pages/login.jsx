@@ -10,43 +10,55 @@ export default function Login() {
 
     const { handleFeedback } = useContext(Context)
 
-    const onFormSubmit = async event => {
-        try {
-            const email = event.target.email.value
-            const password = event.target.password.value
-
-            event.target.reset()
-
-            const token = await authenticateUser(email, password)
-
-            handleFeedback('success', 'Login', 'successfully logged in')
-
-            setCookie('token', token, '3600')
-
-            router.push('/')
-        } catch (error) {
-            handleFeedback('error', 'Login failed', error.message)
-        }
-    }
-
-    // tryThis(() => {
-    
-    // })
-
-    // function tryThis(callback, handleError) {
+    // const onFormSubmit = async event => {
     //     try {
-    //         callback()
+    //         const email = event.target.email.value
+    //         const password = event.target.password.value
 
-    //     } catch(error) {
-    //         if(handleError) {
-    //             handleError(error, () => {
-                    
-    //             })
-    //         } else {
-                
-    //         }
+    //         event.target.reset()
+
+    //         const token = await authenticateUser(email, password)
+
+    //         handleFeedback('success', 'Login', 'successfully logged in')
+
+    //         setCookie('token', token, '3600')
+
+    //         router.push('/')
+    //     } catch (error) {
+    //         handleFeedback('error', 'Login failed', error.message)
     //     }
     // }
+
+    const onFormSubmit = event => {
+        tryThis(async (handleFeedback) => {
+            const email = event.target.email.value
+            const password = event.target.password.value
+    
+            event.target.reset()
+    
+            const token = await authenticateUser(email, password)
+    
+            handleFeedback('success', 'Login', 'successfully logged in')
+    
+            setCookie('token', token, '3600')
+    
+            router.push('/')
+        }, (error, handleFeedback) => {
+            handleFeedback('error', 'Login failed', error.message)
+        })
+    }
+
+    async function tryThis(callback, handleError) {
+        try {
+            await callback(handleFeedback)
+        } catch(error) {
+            if(handleError) {
+                handleError(error, handleFeedback)
+            } else {
+                handleFeedback('error', 'Error', error.message)
+            }
+        }
+    }
     
     return (
         <>
