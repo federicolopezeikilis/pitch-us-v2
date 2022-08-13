@@ -1,13 +1,11 @@
 import Link from 'next/link'
 import Head from 'next/head'
-import { useContext } from 'react'
 import { retrieveUser, updateUser } from '../../../../logic'
 import { verifyTokenAndRedirect } from '../../../../helpers'
 import { useRouter } from 'next/router'
-import { ChevronLeftImage, EditProfileForm, FlexColSection, Footer, Context } from '../../../../components'
+import { withContext, ChevronLeftImage, EditProfileForm, FlexColSection, Footer } from '../../../../components'
 
-export default function EditProfile({ token, user }) {
-    const { handleFeedback } = useContext(Context)
+export default withContext(function EditProfile({ token, user, context: { tryThis } }) {
     const router = useRouter()
 
     const handleFormSubmit = event => {
@@ -17,15 +15,13 @@ export default function EditProfile({ token, user }) {
         const lastName = event.target.lastName.value
         const dateOfBirth = new Date(event.target.dateOfBirth.value)
 
-        try {
+        tryThis(async (handleFeedback) => {
             updateUser(token, { firstName, lastName, dateOfBirth })
 
             handleFeedback('success', 'Update Personal Information', 'Redirecting to settings page')
 
-            router.push('/profile/settings')
-        } catch (error) {
-            handleFeedback('error', 'Error', error.message)
-        }
+            router.push(`/profile/${user.username}/settings`)
+        })
     }
 
     return (
@@ -50,14 +46,21 @@ export default function EditProfile({ token, user }) {
             <Footer user={user} page="user-session" />
         </>
     )
-}
+})
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res, params: { username } }) {
     const token = await verifyTokenAndRedirect(req, res)
 
     if (!token) return { props: {} }
 
     const user = await retrieveUser(token)
+
+    if (username !== user.username) {
+        res.writeHead(307, { Location: `/profile/${user.username}/settings/edit` })
+        res.end()
+
+        return { props: {} }
+    }
 
     return { props: { user, token } }
 }

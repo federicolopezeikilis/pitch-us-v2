@@ -1,46 +1,43 @@
 import Head from 'next/head'
 import { findArtistsSongsAndUsers, retrieveUser } from '../logic'
-import { Header, Footer, SearchForm, FlexColSection, Context } from '../components'
+import { withContext, Header, Footer, SearchForm, FlexColSection, ArtistsSongsAndUsersResultsList } from '../components'
 import { verifyTokenAndRedirect } from '../helpers'
-import { useEffect, useState, useContext } from 'react'
-import { ArtistsSongsAndUsersResultsList } from "../components"
+import { useEffect, useState } from 'react'
 
-export default function Search({ user }) {
+export default withContext(function Search({ user, context: { tryThis } }) {
     const [artistsSongsAndUsers, setArtistsSongsAndUsers] = useState(null)
     const [tag, setTag] = useState('all')
     const [queryState, setQueryState] = useState(null)
 
-    const { handleFeedback } = useContext(Context)
-
     let timeoutID
 
     const onSearchSubmit = async query => {
-        try {
+        tryThis(async () => {
             const artistsSongsAndUsersFounded = await findArtistsSongsAndUsers(query, tag)
 
             setArtistsSongsAndUsers(artistsSongsAndUsersFounded)
-        } catch (error) {
+        }, (error, handleFeedback) => {
             handleFeedback('error', 'Search error', error.message)
-        }
+        })
     }
 
     useEffect(() => {
-        if(queryState) onSearchSubmit(queryState)
+        if (queryState) onSearchSubmit(queryState)
     }, [tag])
 
     const onChangeQuery = async event => {
         const query = event.target.value
 
         if (query.length > 2) {
-            if(timeoutID) 
+            if (timeoutID)
                 clearTimeout(timeoutID)
 
             timeoutID = setTimeout(() => onSearchSubmit(query), 500)
-            
+
             setQueryState(query)
         } else {
             setArtistsSongsAndUsers(null)
-            
+
             setQueryState(null)
         }
     }
@@ -83,7 +80,7 @@ export default function Search({ user }) {
 
         <Footer user={user} page="search" ></Footer>
     </>
-}
+})
 
 
 export async function getServerSideProps({ req, res }) {

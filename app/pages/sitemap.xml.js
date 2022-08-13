@@ -26,8 +26,6 @@ export async function getServerSideProps({ res }) {
             return `${baseUrl}/${staticPagePath.split('.').slice(0, -1).join('.')}`;
         });
 
-    debugger
-
     const artistsWithSongs = await retrieveAllArtistsWithSongs()
 
     const dynamicPages = artistsWithSongs.reduce((previousValue, currentArtist) => {

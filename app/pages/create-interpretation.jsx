@@ -1,12 +1,12 @@
-import { Header, Footer, FlexColSection, ChevronRightImage, AuxiliarDivSearch, ArtistItem, SongItem, Context, InterpretationPreview, CreateInterpretationPanel } from '../components'
+import { withContext, Header, Footer, FlexColSection, ChevronRightImage, AuxiliarDivSearch, ArtistItem, SongItem, InterpretationPreview, CreateInterpretationPanel } from '../components'
 import { verifyTokenAndRedirect } from '../helpers'
 import { findArtists, retrieveSongsOfArtist, addInterpretationToSong, createSong, retrieveUser, createArtist } from '../logic'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { stringToUrl } from '../utils'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 
-export default function CreateInterpretation({ token, user }) {
+export default withContext(function CreateInterpretation({ token, user, context: { tryThis } }) {
     const [artistState, setArtistState] = useState('active')
     const [queryArtist, setQueryArtist] = useState(null)
     const [artistsDisplayed, setArtistsDisplayed] = useState(null)
@@ -22,15 +22,13 @@ export default function CreateInterpretation({ token, user }) {
 
     const router = useRouter()
 
-    const { handleFeedback } = useContext(Context)
-
     const handleChangeInputQueryArtist = async event => {
         const query = event.target.value
 
         if (query) {
             setQueryArtist(query)
 
-            try {
+            tryThis(async () => {
                 const artists = await findArtists(query)
 
                 if (artists.length === 0)
@@ -39,9 +37,7 @@ export default function CreateInterpretation({ token, user }) {
                     setArtistState('active')
 
                 setArtistsDisplayed(artists)
-            } catch (error) {
-                handleFeedback('error', 'Error', error.message)
-            }
+            })
 
         } else {
             setQueryArtist(null)
@@ -62,16 +58,14 @@ export default function CreateInterpretation({ token, user }) {
         if (artistChosen.id) {
             setSongState('active')
 
-            try {
+            tryThis(async () => {
                 const songs = await retrieveSongsOfArtist(artistChosen.name)
 
                 if (songs.length > 0) {
                     setSongsOfArtist(songs)
                     setSongsDisplayed(songs)
                 }
-            } catch (error) {
-                handleFeedback('error', 'Error', error.message)
-            }
+            })
         } else
             setSongState('create')
     }
@@ -141,7 +135,7 @@ export default function CreateInterpretation({ token, user }) {
     const handleOnEditInterpretation = () => setPreview(false)
 
     const handleSubmitInterpretation = async () => {
-        try {
+        tryThis(async (handleFeedback) => {
             if (!artist.id) {
 
                 artist.id = await createArtist(token, artist.name)
@@ -156,10 +150,7 @@ export default function CreateInterpretation({ token, user }) {
             handleFeedback('success', 'Interpretation created!', 'Redirecting to your new interpretation')
 
             router.push(`/artist/${stringToUrl(artist.name)}/song/${stringToUrl(song.name)}/interpretation/${interpretationId}`)
-
-        } catch (error) {
-            handleFeedback('error', 'Error', error.message)
-        }
+        })
     }
 
     return (
@@ -267,7 +258,7 @@ export default function CreateInterpretation({ token, user }) {
             <Footer page="create-interpretation" user={user} />
         </>
     )
-}
+})
 
 export async function getServerSideProps({ req, res }) {
     const token = await verifyTokenAndRedirect(req, res)

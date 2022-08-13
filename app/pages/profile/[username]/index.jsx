@@ -1,13 +1,11 @@
 import Head from 'next/head'
-import { useState, useContext } from 'react'
-import { Context, ButtonGreen, FlexColSection, Footer, Header, InterpretationProfileItem, RateBlueImage } from "../../../components"
+import { useState } from 'react'
+import { withContext, ButtonGreen, FlexColSection, Footer, Header, InterpretationProfileItem, RateBlueImage } from "../../../components"
 import { calculateInterpretationRankAverage, verifyTokenAndRedirect } from "../../../helpers"
 import { retrieveUserByUsername, retrieveInterpretationsOfUser, retrieveUser, toggleFollow } from "../../../logic"
 import { decodeJWTPayload } from '../../../utils'
 
-export default function UserProfile({ token, userProfile, isOwnProfile, userIsFollowed, interpretations, user }) {
-    const { handleFeedback } = useContext(Context)
-
+export default withContext(function UserProfile({ token, userProfile, isOwnProfile, userIsFollowed, interpretations, user, context: { tryThis } }) {
     const [following, setFollowing] = useState(userIsFollowed)
     const [amountFollowers, setAmountFollowers] = useState(userProfile.followers.length)
 
@@ -18,7 +16,7 @@ export default function UserProfile({ token, userProfile, isOwnProfile, userIsFo
     const userRank = calculateInterpretationRankAverage(rankArray)
 
     const handleFollowingClick = () => {
-        try {
+        tryThis(async (handleFeedback) => {
             if (token) {
                 toggleFollow(token, userProfile.id)
 
@@ -32,9 +30,7 @@ export default function UserProfile({ token, userProfile, isOwnProfile, userIsFo
             } else {
                 handleFeedback('info', 'Login needed', 'You should log in to follow someone else')
             }
-        } catch (error) {
-            handleFeedback('error', 'Error', error.message)
-        }
+        })
     }
 
     return (
@@ -98,7 +94,7 @@ export default function UserProfile({ token, userProfile, isOwnProfile, userIsFo
             <Footer user={user} page={isOwnProfile && 'user-session'} />
         </ >
     )
-}
+})
 
 export async function getServerSideProps({ params, req, res }) {
     const token = await verifyTokenAndRedirect(req, res)

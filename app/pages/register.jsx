@@ -1,17 +1,14 @@
-import { useContext } from 'react'
-import Link from 'next/link'
 import Head from 'next/head'
 import { registerUser } from '../logic'
 import { useRouter } from 'next/router'
 import { verifyTokenAndRedirect } from '../helpers'
-import { FlexColSection, Logo, BlueAnchor, RegisterForm, Context } from '../components'
+import { withContext, FlexColSection, Logo, BlueAnchor, RegisterForm } from '../components'
 
-export default function Register() {
-    const { handleFeedback } = useContext(Context)
+export default withContext(function Register({ context: { tryThis } }) {
     const router = useRouter()
 
     const onFormSubmit = async event => {
-        try {
+        tryThis(async(handleFeedback) => {
             const email = event.target.email.value
             const username = event.target.username.value
             const password = event.target.password.value
@@ -22,9 +19,9 @@ export default function Register() {
             handleFeedback('success', 'Register', 'successfully registered')
 
             router.push('/login')
-        } catch (error) {
+        }, (error, handleFeedback) => {
             handleFeedback('error', 'Sign up failed', error.message)
-        }
+        })
     }
 
     return (
@@ -45,7 +42,7 @@ export default function Register() {
             </FlexColSection>
         </>
     )
-}
+})
 
 export async function getServerSideProps({ req, res }) {
     await verifyTokenAndRedirect(req, res)

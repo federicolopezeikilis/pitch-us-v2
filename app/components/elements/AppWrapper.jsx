@@ -22,8 +22,20 @@ export function AppWrapper({ children }) {
 
     const handleCloseFeedbackClick = () => setFeedback(null)
 
+    const tryThis = async (callback, handleError) => {  
+        try {
+            await callback(handleFeedback)
+        } catch (error) {
+            if (handleError) {
+                handleError(error, handleFeedback)
+            } else {
+                handleFeedback('error', 'Error', error.message)
+            }
+        }
+    }
+
     return (
-        <Context.Provider value={{ handleFeedback, handleDialog, handleCloseDialogClick }}>
+        <Context.Provider value={{ handleFeedback, handleDialog, handleCloseDialogClick, tryThis }}>
             {children}
             {feedback !== null && <Feedback level={feedback.level} title={feedback.title} description={feedback.description} onTimeout={handleFeedbackTimeOut} onCloseClick={handleCloseFeedbackClick} />}
 

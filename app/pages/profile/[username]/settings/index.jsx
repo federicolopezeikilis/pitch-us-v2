@@ -3,13 +3,10 @@ import Head from 'next/head'
 import { retrieveUser } from '../../../../logic'
 import { verifyTokenAndRedirect } from '../../../../helpers'
 import { useRouter } from 'next/router'
-import { ChevronRightImage, Context, FlexColSection, Footer, Header } from '../../../../components'
-import { useContext } from 'react'
+import { withContext, ChevronRightImage, FlexColSection, Footer, Header } from '../../../../components'
 
-export default function Settings({ user }) {
+export default withContext(function Settings({ user, context: { handleFeedback } }) {
     const router = useRouter()
-
-    const { handleFeedback } = useContext(Context)
 
     const onLogOutClick = () => {
         handleFeedback('success', 'Log out', 'Redirecting to login page')
@@ -77,17 +74,22 @@ export default function Settings({ user }) {
 
             <Footer user={user} page="user-session" />
         </>
-
     )
+})
 
-}
-
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res, params: { username } }) {
     const token = await verifyTokenAndRedirect(req, res)
 
     if (!token) return { props: {} }
 
     const user = await retrieveUser(token)
+
+    if (username !== user.username) {
+        res.writeHead(307, { Location: `/profile/${user.username}/settings` })
+        res.end()
+
+        return { props: {} }
+    }
 
     return { props: { user } }
 }

@@ -26,7 +26,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
   return (
     <>
       <Head>
-        <title>PitchUs | Explore chords of songs | Social medial for musicians</title>
+        <title>PitchUs | Explore chords of songs | Social media for musicians</title>
       </Head>
 
       <Header title="Explore" />
