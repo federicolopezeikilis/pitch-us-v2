@@ -4,7 +4,7 @@ const { validateObjectId } = require('../validators')
 
 module.exports = async (userId) => {
     validateObjectId(userId)
-
+    debugger
     const user = await User.findById(userId)
 
     if (!user) throw new NotFoundError(`user with id ${userId} not found`)

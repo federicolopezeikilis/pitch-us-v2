@@ -1,0 +1,11 @@
+module.exports = name => {
+    const customError = class extends Error {
+        constructor(message) {
+            super(message)
+        }
+    }
+
+    customError.prototype.name = name
+
+    return customError
+}

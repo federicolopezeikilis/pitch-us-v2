@@ -51,7 +51,6 @@ describe('retrieveInterpretationsOfUser', () => {
 
         result.forEach(interpretation => {
             expect(interpretation.user).to.equal(user1._id.toString())
-            expect(interpretation.content).to.equal(interpretation1.content)
             expect(interpretation.song.name).to.be.string
             expect(interpretation.song.artist.name).to.be.string
             expect(interpretation.song.id).to.be.string

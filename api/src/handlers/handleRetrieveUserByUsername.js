@@ -1,9 +1,12 @@
 const { retrieveUserByUsername } = require('../logic')
 const { handleErrorsAndRespond } = require('./helpers')
+const { urlToString } = require('utils')
 
 module.exports = async (req, res) => {
     try {
-        const { params: { username } } = req
+        let { params: { username } } = req
+
+        username = urlToString(username)
 
         const user = await retrieveUserByUsername(username)
 

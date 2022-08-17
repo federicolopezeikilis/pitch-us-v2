@@ -4,6 +4,7 @@ module.exports = {
     /* USERS */ 
     handleRegisterUser: require('./handleRegisterUser'),
     handleAuthenticateUser: require('./handleAuthenticateUser'),
+    handleAuthenticateOrRegisterUser: require('./handleAuthenticateOrRegisterUser'),
     handleUpdatePassword: require('./handleUpdatePassword'),
     handleRetrieveUser: require('./handleRetrieveUser'),
     handleRetrieveUserByUsername: require('./handleRetrieveUserByUsername'),
