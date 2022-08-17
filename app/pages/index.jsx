@@ -1,8 +1,8 @@
-import { FlexColSection, Footer, Header, Context, InterpretationProfileItem, List, ArtistSquareItem } from "../components"
-import { verifyTokenAndRedirect } from "../helpers"
-import { checkSpotifySession, getTopArtists, retrieveUser, retrieveLastInterpretationsOfFollowed, retrieveMostVisitedInterpretations, retrieveMostVisitedArtists } from '../logic'
-import { useContext, useState } from "react"
 import Head from 'next/head'
+import { FlexColSection, Footer, Header, Context, InterpretationProfileItem, List, ArtistSquareItem } from '../components'
+import { verifyTokenAndRedirect } from '../helpers'
+import { checkSpotifySession, getTopArtists, retrieveUser, retrieveLastInterpretationsOfFollowed, retrieveMostVisitedInterpretations, retrieveMostVisitedArtists } from '../logic'
+import { useContext, useState } from 'react'
 
 export default function Home({ isSessionActive, topArtists, user, interpretationsOfFollowed, mostVisitedInterpretations, mostVisitedArtists }) {
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -29,12 +29,12 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
         <title>PitchUs | Explore chords of songs | Social media for musicians</title>
       </Head>
 
-      <Header title="Explore" />
+      <Header title='Explore' />
 
-      <FlexColSection className={"bg-primary flex-1 overflow-y-auto" + (dialogOpen && dialogOpen !== 'close' ? ' brightness-50' : '')}>
+      <FlexColSection className={'bg-primary flex-1 overflow-y-auto' + (dialogOpen && dialogOpen !== 'close' ? ' brightness-50' : '')}>
 
         {topArtists && topArtists.length > 0 &&
-          <List title="Most listened in Spotify">
+          <List title='Most listened in Spotify'>
             {topArtists.map((artist, index) => {
               return <ArtistSquareItem artist={artist} index={index} key={artist.id} />
             })}
@@ -42,7 +42,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
         }
 
         {mostVisitedArtists && mostVisitedArtists.length > 0 &&
-          <List title="Most popular artists">
+          <List title='Most popular artists'>
             {mostVisitedArtists.map((artist, index) => {
               return <ArtistSquareItem artist={artist} index={index} key={artist.id} />
             })}
@@ -50,7 +50,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
         }
 
         {interpretationsOfFollowed && interpretationsOfFollowed.length > 0 &&
-          <List className="h-48 flex-col" title="Recent versions from your contacts">
+          <List className='h-48 flex-col' title='Recent versions from your contacts'>
             {interpretationsOfFollowed.map(interpretation => {
               return <InterpretationProfileItem interpretation={interpretation} user={interpretation.user} key={interpretation.id} />
             })}
@@ -58,7 +58,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
         }
 
         {mostVisitedInterpretations && mostVisitedInterpretations.length > 0 &&
-          <List className="h-48 flex-col" title="Most popular interpretations">
+          <List className='h-48 flex-col' title='Most popular interpretations'>
             {mostVisitedInterpretations.map(interpretation => {
               return <InterpretationProfileItem interpretation={interpretation} user={interpretation.user} key={interpretation.id} />
             })}
@@ -67,14 +67,14 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
 
       </FlexColSection >
 
-      <Footer user={user} page="home" />
+      <Footer user={user} page='home' />
     </>
   )
 }
 
 export async function getServerSideProps(ctx) {
   const { req, res } = ctx
-
+    
   const token = await verifyTokenAndRedirect(req, res)
 
   const [mostVisitedInterpretations, mostVisitedArtists] = await Promise.all([retrieveMostVisitedInterpretations(), retrieveMostVisitedArtists()])

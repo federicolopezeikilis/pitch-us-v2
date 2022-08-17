@@ -1,42 +1,39 @@
 import Head from 'next/head';
 import React from 'react';
 import {
-  signIn, 
+  signIn,
   signOut,
   useSession
-} from 'next-auth/client';
+} from 'next-auth/react';
 
-const Login2 = () => {
-  
-  const [ session, loading ] = useSession();
+export default function Login2() {
+
+  const { data: session } = useSession();
 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Jobs App</title>
+        <title>Login || Pitch US</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        
+      <main>
+
         {!session && <>
-          <h1>You are not signed in</h1> <br/>
+          <h1>You are not signed in</h1> <br />
           <button onClick={signIn}>Sign in</button>
         </>}
 
         {session && <>
-          <h1>Signed in as {session.user.name} </h1> <br/>
+          <h1>Signed in as </h1> <br />
           <button onClick={signOut}>Sign out</button>
         </>}
 
       </main>
 
-      <footer className={styles.footer}>
-          Powered by Pragmatic Reviews
+      <footer>
+        Powered by Pragmatic Reviews
       </footer>
     </div>
   )
 }
-
-export default Login2;
-

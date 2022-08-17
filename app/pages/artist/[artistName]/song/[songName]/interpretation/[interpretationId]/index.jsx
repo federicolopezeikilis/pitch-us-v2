@@ -72,7 +72,7 @@ export default function InterpretationPage({ token, interpretation, user }) {
                 <div className="bg-primary flex-1 overflow-y-auto ">
                     <FlexColSection className="p-4 items- h-fit">
 
-                        <Link href={`/profile/${username}`}>
+                        <Link href={`/profile/${stringToUrl(username, true)}`}>
                             <a className="w-fit flex items-center gap-1">
                                 <img
                                     className="w-12 h-12 rounded-full"

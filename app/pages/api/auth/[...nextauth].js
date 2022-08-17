@@ -1,53 +1,58 @@
 import NextAuth from 'next-auth'
-import Providers from 'next-auth/providers'
-import Apium from '../../../vendor/Apium';
+import CredentialsProvider from "next-auth/providers/credentials"
+import GoogleProvider from "next-auth/providers/google";
+import { authenticateUser, authenticateOrRegisterUser } from '../../../logic'
 
-const options = {
+export const authOptions = {
     providers: [
-        Providers.Credentials({
-            // The name to display on the sign in form (e.g. 'Sign in with...')
-            name: 'Credentials',
-            // The credentials property is used to generate a suitable form on the sign in page.
+        CredentialsProvider({
+            name: 'PitchUs',
             credentials: {
                 email: { label: "Email", type: "email", placeholder: "your email" },
                 password: { label: "Password", type: "password", placeholder: "at least 8 characters" }
             },
             async authorize(credentials) {
-                // Authentication Logic: local function, external API call, etc
-                //const user = { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
                 try {
-                    const api = new Apium
+                    const token = await authenticateUser(credentials.email, credentials.password)
 
-                    const { status, payload } = await api.post(
-                        'users/auth',
-                        {
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ email: credentials.email, password: credentials.password })
-                        })
-
-                    const data = await JSON.parse(payload)
-
-                    if (data.token) {
-                        return true;
-                    } else {
-                        return null;
-                    }
-                } catch (e) {
-                    throw new Error("There was an error on user authentication");
+                    return token
+                } catch (error) {
+                    return null
                 }
             }
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET
         })
     ],
+    pages: {
+        signIn: '/login'
+    },
     session: {
-        jwt: true,
+        strategy: "jwt",
+        maxAge: 60 * 60
     },
     jwt: {
-        // A secret to use for key generation - you should set this explicitly
-        // Defaults to NextAuth.js secret if not explicitly specified.
-        secret: 'charmander fuego',
+        secret: process.env.NEXTAUTH_SECRET,
+    },
+    callbacks: {
+        async session({ session, user, token }) {
+            session.tokenFromApi = token.tokenFromApi
+            return session
+        },
+        async jwt({ token, user, account, profile, isNewUser }) {
+            if (account && account.provider === 'credentials' && user)
+                token.tokenFromApi = user
+
+            else if (account && account.provider === 'google') {
+                token.tokenFromApi = await authenticateOrRegisterUser({ email: profile.email, username: profile.name, providerName: 'google', providerId: profile.sub, firstName: profile.given_name, lastName: profile.family_name })
+            }
+
+            return token
+        }
     }
 }
 
-export default (req, res) => NextAuth(req, res, options);
+
+export default (req, res) => NextAuth(req, res, authOptions);

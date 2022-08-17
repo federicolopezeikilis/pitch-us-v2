@@ -102,7 +102,7 @@ export async function getServerSideProps({ params, req, res }) {
     const { username } = params
 
     const userProfile = await retrieveUserByUsername(username)
-
+    debugger
     const interpretations = await retrieveInterpretationsOfUser(userProfile.id)
 
     if (token) {

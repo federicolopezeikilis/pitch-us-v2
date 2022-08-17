@@ -1,10 +1,10 @@
+import Head from 'next/head'
 import { withContext, Header, Footer, FlexColSection, ChevronRightImage, AuxiliarDivSearch, ArtistItem, SongItem, InterpretationPreview, CreateInterpretationPanel } from '../components'
 import { verifyTokenAndRedirect } from '../helpers'
 import { findArtists, retrieveSongsOfArtist, addInterpretationToSong, createSong, retrieveUser, createArtist } from '../logic'
 import { useState } from 'react'
 import { stringToUrl } from '../utils'
 import { useRouter } from 'next/router'
-import Head from 'next/head'
 
 export default withContext(function CreateInterpretation({ token, user, context: { tryThis } }) {
     const [artistState, setArtistState] = useState('active')
@@ -260,9 +260,9 @@ export default withContext(function CreateInterpretation({ token, user, context:
     )
 })
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res }) {    
     const token = await verifyTokenAndRedirect(req, res)
-
+  
     if (!token) return { props: {} }
 
     const user = await retrieveUser(token)

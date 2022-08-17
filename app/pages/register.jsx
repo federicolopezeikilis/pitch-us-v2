@@ -3,6 +3,8 @@ import { registerUser } from '../logic'
 import { useRouter } from 'next/router'
 import { verifyTokenAndRedirect } from '../helpers'
 import { withContext, FlexColSection, Logo, BlueAnchor, RegisterForm } from '../components'
+import { unstable_getServerSession } from 'next-auth/next'
+import { authOptions } from './api/auth/[...nextauth]'
 
 export default withContext(function Register({ context: { tryThis } }) {
     const router = useRouter()
@@ -45,7 +47,9 @@ export default withContext(function Register({ context: { tryThis } }) {
 })
 
 export async function getServerSideProps({ req, res }) {
-    await verifyTokenAndRedirect(req, res)
+    const session = await unstable_getServerSession(req, res, authOptions)
+
+    await verifyTokenAndRedirect(req, res, session)
 
     return { props: {} }
 }

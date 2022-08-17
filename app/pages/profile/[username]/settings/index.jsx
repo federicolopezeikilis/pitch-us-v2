@@ -1,9 +1,13 @@
 import Link from 'next/link'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { retrieveUser } from '../../../../logic'
 import { verifyTokenAndRedirect } from '../../../../helpers'
-import { useRouter } from 'next/router'
 import { withContext, ChevronRightImage, FlexColSection, Footer, Header } from '../../../../components'
+import { urlToString } from 'utils'
+import { stringToUrl } from '../../../../utils'
+import { signOut } from 'next-auth/react';
+
 
 export default withContext(function Settings({ user, context: { handleFeedback } }) {
     const router = useRouter()
@@ -34,7 +38,7 @@ export default withContext(function Settings({ user, context: { handleFeedback }
                 <div className="px-4 py-2 flex items-center border-b border-b-inputBg">
                     <p className="py-2 text-myblack font-medium">Account Settings</p>
                 </div>
-                <Link href={`/profile/${user.username}/settings/edit`}>
+                <Link href={`/profile/${stringToUrl(user.username, true)}/settings/edit`}>
                     <a className="w-full pl-10 pr-2 py-2 flex justify-between items-center border-b border-b-inputBg">
                         <p className="py-2 text-mygrey font-medium text-sm">Personal Information</p>
                         <div><ChevronRightImage className="w-6 h-6" />
@@ -42,7 +46,7 @@ export default withContext(function Settings({ user, context: { handleFeedback }
                     </a>
                 </Link>
 
-                <Link href={`/profile/${user.username}/settings/upload-photo`}>
+                <Link href={`/profile/${stringToUrl(user.username, true)}/settings/upload-photo`}>
                     <a className="w-full pl-10 pr-2 py-2 flex justify-between items-center border-b border-b-inputBg">
                         <p className="py-2 text-mygrey font-medium text-sm">Change Photo/Avatar</p>
                         <div><ChevronRightImage className="w-6 h-6" />
@@ -50,14 +54,14 @@ export default withContext(function Settings({ user, context: { handleFeedback }
                     </a>
                 </Link>
 
-                <Link href={`/profile/${user.username}/settings/change-password`}>
+                <Link href={`/profile/${stringToUrl(user.username, true)}/settings/change-password`}>
                     <a className="w-full pl-10 pr-2 py-2 flex justify-between items-center border-b border-b-inputBg">
                         <p className="py-2 text-mygrey font-medium text-sm">Change Password</p>
                         <div><ChevronRightImage className="w-6 h-6" />
                         </div>
                     </a>
                 </Link>
-                <Link href={`/profile/${user.username}/settings/delete-account`}>
+                <Link href={`/profile/${stringToUrl(user.username, true)}/settings/delete-account`}>
                     <a className="w-full pl-10 pr-2 py-2 flex justify-between items-center border-b border-b-inputBg">
                         <p className="py-2 text-mygrey font-medium text-sm">Delete Account</p>
                         <div><ChevronRightImage className="w-6 h-6" />
@@ -67,7 +71,7 @@ export default withContext(function Settings({ user, context: { handleFeedback }
 
                 <button
                     className="mt-14 text-myblue font-medium"
-                    onClick={onLogOutClick}
+                    onClick={() => signOut()}
                 >Log Out</button>
 
             </FlexColSection>
@@ -78,14 +82,15 @@ export default withContext(function Settings({ user, context: { handleFeedback }
 })
 
 export async function getServerSideProps({ req, res, params: { username } }) {
+    debugger
     const token = await verifyTokenAndRedirect(req, res)
 
     if (!token) return { props: {} }
 
     const user = await retrieveUser(token)
 
-    if (username !== user.username) {
-        res.writeHead(307, { Location: `/profile/${user.username}/settings` })
+    if (urlToString(username) !== user.username) {
+        res.writeHead(307, { Location: `/profile/${stringToUrl(user.username, true)}/settings` })
         res.end()
 
         return { props: {} }

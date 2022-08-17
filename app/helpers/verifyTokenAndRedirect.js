@@ -1,17 +1,17 @@
-import Cookies from 'cookies'
 import Apium from '../vendor/Apium'
+import { getToken } from 'next-auth/jwt'
 
 export async function verifyTokenAndRedirect(req, res) {
-    const cookies = new Cookies(req, res)
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
 
-    const token = cookies.get('token')
+    if (token && token.tokenFromApi) {
+        const { tokenFromApi } = token
 
-    if (token) {
         const api = new Apium(process.env.NEXT_PUBLIC_API_URL)
 
         const { status } = await api.get('users/auth', {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${tokenFromApi}`
             }
         })
 
@@ -20,12 +20,15 @@ export async function verifyTokenAndRedirect(req, res) {
                 res.writeHead(307, { Location: '/' })
                 res.end()
 
-            } else return token
+            } else return tokenFromApi
 
-        } else if (status === 401 || status === 404) cookies.set('token')
+        } else if (status === 401 || status === 404 || status === 500) {
+            //TODO
+            console.log('status', status)
+        }
     }
 
-    if (req.url.includes('/settings') || req.url.includes('/create-interpretation')) {    
+    if (req.url.includes('/settings') || req.url.includes('/create-interpretation')) {
         res.writeHead(307, { Location: '/login' })
         res.end()
     }

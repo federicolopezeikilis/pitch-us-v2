@@ -3,6 +3,7 @@ import { findArtistsSongsAndUsers, retrieveUser } from '../logic'
 import { withContext, Header, Footer, SearchForm, FlexColSection, ArtistsSongsAndUsersResultsList } from '../components'
 import { verifyTokenAndRedirect } from '../helpers'
 import { useEffect, useState } from 'react'
+import { getToken } from 'next-auth/jwt'
 
 export default withContext(function Search({ user, context: { tryThis } }) {
     const [artistsSongsAndUsers, setArtistsSongsAndUsers] = useState(null)

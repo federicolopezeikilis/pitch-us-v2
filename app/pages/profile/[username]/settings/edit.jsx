@@ -4,6 +4,8 @@ import { retrieveUser, updateUser } from '../../../../logic'
 import { verifyTokenAndRedirect } from '../../../../helpers'
 import { useRouter } from 'next/router'
 import { withContext, ChevronLeftImage, EditProfileForm, FlexColSection, Footer } from '../../../../components'
+import { urlToString } from 'utils'
+import { stringToUrl } from '../../../../utils'
 
 export default withContext(function EditProfile({ token, user, context: { tryThis } }) {
     const router = useRouter()
@@ -20,7 +22,7 @@ export default withContext(function EditProfile({ token, user, context: { tryThi
 
             handleFeedback('success', 'Update Personal Information', 'Redirecting to settings page')
 
-            router.push(`/profile/${user.username}/settings`)
+            router.push(`/profile/${stringToUrl(user.username, true)}/settings`)
         })
     }
 
@@ -55,7 +57,7 @@ export async function getServerSideProps({ req, res, params: { username } }) {
 
     const user = await retrieveUser(token)
 
-    if (username !== user.username) {
+    if (urlToString(username) !== user.username) {
         res.writeHead(307, { Location: `/profile/${user.username}/settings/edit` })
         res.end()
 

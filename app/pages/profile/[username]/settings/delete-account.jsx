@@ -4,6 +4,7 @@ import { withContext, ChevronLeftImage, Fieldset, Input, Label, FlexColSection, 
 import { unregisterUser, retrieveUser } from '../../../../logic'
 import { verifyTokenAndRedirect } from '../../../../helpers'
 import { useRouter } from 'next/router'
+import { urlToString } from 'utils'
 
 export default withContext(function DeleteAccount({ token, user, context: { tryThis } }) {
     const router = useRouter()
@@ -72,7 +73,7 @@ export async function getServerSideProps({ req, res, params: { username } }) {
 
     const user = await retrieveUser(token)
 
-    if (username !== user.username) {
+    if (urlToString(username) !== user.username) {
         res.writeHead(307, { Location: `/profile/${user.username}/settings/delete-account` })
         res.end()
 

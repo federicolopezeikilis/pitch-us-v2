@@ -1,9 +1,11 @@
 import Link from 'next/link'
+import Head from 'next/head'
 import { withContext, ChevronLeftImage, Fieldset, Input, Label, FlexColSection, Footer } from '../../../../components'
 import { retrieveUser, updatePassword } from '../../../../logic'
 import { verifyTokenAndRedirect } from '../../../../helpers'
 import { useRouter } from 'next/router'
-import Head from 'next/head'
+import { urlToString } from 'utils'
+import { stringToUrl } from '../../../../utils'
 
 export default withContext(function ChangePassword({ token, user, context: { tryThis } }) {
     const router = useRouter()
@@ -22,7 +24,7 @@ export default withContext(function ChangePassword({ token, user, context: { try
 
             handleFeedback('success', 'Change password', 'Redirecting to settings page')
 
-            router.push(`/profile/${user.username}/settings`)
+            router.push(`/profile/${stringToUrl(user.username, true)}/settings`)
         })
     }
 
@@ -77,7 +79,7 @@ export async function getServerSideProps({ req, res, params: { username } }) {
 
     const user = await retrieveUser(token)
 
-    if (username !== user.username) {
+    if (urlToString(username) !== user.username) {
         res.writeHead(307, { Location: `/profile/${user.username}/settings/change-password` })
         res.end()
 

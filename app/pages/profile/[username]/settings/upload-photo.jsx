@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { verifyTokenAndRedirect, returnFileSize } from '../../../../helpers'
-import { verifyFile } from '../../../../utils'
+import { verifyFile, stringToUrl } from '../../../../utils'
 import { updateUserImage, retrieveUser } from '../../../../logic'
 import { withContext, ButtonGreen, FlexColSection, Footer, ChevronLeftImage } from '../../../../components'
+import { urlToString } from 'utils'
 
 export default withContext(function UploadPhoto({ token, user, context: { tryThis } }) {
     const [file, setFile] = useState({ isTypeAllowed: true, isSizeAllowed: true, size: null })
@@ -51,7 +52,7 @@ export default withContext(function UploadPhoto({ token, user, context: { tryThi
 
             handleFeedback('success', 'Upload Photo', 'successfully uploaded')
 
-            router.push(`/profile/${user.username}/settings`)
+            router.push(`/profile/${stringToUrl(user.username, true)}/settings`)
         })
     }
 
@@ -125,7 +126,7 @@ export async function getServerSideProps({ req, res, params: { username } }) {
 
     const user = await retrieveUser(token)
 
-    if (username !== user.username) {
+    if (urlToString(username) !== user.username) {
         res.writeHead(307, { Location: `/profile/${user.username}/settings/upload-photo` })
         res.end()
 
