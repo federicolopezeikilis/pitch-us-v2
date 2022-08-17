@@ -22,7 +22,7 @@ export async function verifyTokenAndRedirect(req, res) {
 
             } else return tokenFromApi
 
-        } else if (status === 401 || status === 404 || status === 500) {
+        } else if (status === 401 || status === 404) {
             //TODO
             console.log('status', status)
         }
