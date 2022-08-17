@@ -1,13 +1,9 @@
 import { getProviders, signIn, getSession, getCsrfToken } from "next-auth/react";
-import { authenticateUser } from '../logic'
-import { setCookie, verifyTokenAndRedirect } from '../helpers'
-import { useRouter } from 'next/router'
 import { withContext, FlexColSection, Logo, LoginForm, BlueAnchor, ButtonGreen, DivLabelInput, Input, PasswordInput, Label, GoogleIcon } from '../components'
 import Head from 'next/head'
+import { verifyTokenAndRedirect } from "../helpers";
 
-export default withContext(function Login3({ context: { tryThis }, providers, csrfToken }) {
-    // const router = useRouter()
-
+export default withContext(function Login({ context: { tryThis }, providers, csrfToken }) {
     const handleFormSubmit = event => {
         event.preventDefault()
 
@@ -15,8 +11,10 @@ export default withContext(function Login3({ context: { tryThis }, providers, cs
         const password = event.target.password.value
 
         event.target.reset()
-
-        signIn('credentials', { email, password })
+        
+        tryThis(async () => {
+            signIn('credentials', { email, password })
+        })
     }
 
     return (
@@ -62,15 +60,9 @@ export default withContext(function Login3({ context: { tryThis }, providers, cs
 })
 
 export async function getServerSideProps(ctx) {
-    const { req } = ctx
-    debugger
-    const session = await getSession({ req })
-
-    if (session) {
-        return {
-            redirect: { destination: '/' }
-        }
-    }
+    const { req, res } = ctx
+    
+    await verifyTokenAndRedirect(req, res)
 
     return {
         props: {

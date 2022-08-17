@@ -69,11 +69,12 @@ export default withContext(function Settings({ user, context: { handleFeedback }
                     </a>
                 </Link>
 
-                <button
-                    className="mt-14 text-myblue font-medium"
-                    onClick={() => signOut()}
-                >Log Out</button>
-
+                <div className="w-full flex items-center justify-center">
+                    <button
+                        className="mt-14 text-myblue font-medium"
+                        onClick={() => signOut()}
+                    >Log Out</button>
+                </div>
             </FlexColSection>
 
             <Footer user={user} page="user-session" />

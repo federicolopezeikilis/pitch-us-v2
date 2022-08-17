@@ -32,7 +32,7 @@ export default function Login2() {
       </main>
 
       <footer>
-        Powered by Pragmatic Reviews
+        Powered by ki.si.io
       </footer>
     </div>
   )
