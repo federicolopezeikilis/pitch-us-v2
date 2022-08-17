@@ -22,10 +22,7 @@ export async function verifyTokenAndRedirect(req, res) {
 
             } else return tokenFromApi
 
-        } else if (status === 401 || status === 404) {
-            //TODO
-            console.log('status', status)
-        }
+        } else if (status === 401 || status === 404) return null
     }
 
     if (req.url.includes('/settings') || req.url.includes('/create-interpretation')) {

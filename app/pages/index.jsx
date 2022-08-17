@@ -73,6 +73,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
 }
 
 export async function getServerSideProps(ctx) {
+  debugger
   const { req, res } = ctx
     
   const token = await verifyTokenAndRedirect(req, res)

@@ -1,19 +1,38 @@
+import { useRouter } from "next/router";
 import { getProviders, signIn, getSession, getCsrfToken } from "next-auth/react";
 import { withContext, FlexColSection, Logo, LoginForm, BlueAnchor, ButtonGreen, DivLabelInput, Input, PasswordInput, Label, GoogleIcon } from '../components'
 import Head from 'next/head'
 import { verifyTokenAndRedirect } from "../helpers";
+import { useEffect } from "react";
+import { validatePassword } from "validators";
 
-export default withContext(function Login({ context: { tryThis }, providers, csrfToken }) {
+export default withContext(function Login({ context: { tryThis, handleFeedback }, providers, error }) {
+    const router = useRouter()
+    
+    useEffect(() => {
+        if (error)
+            handleFeedback('error', 'Sign up error', 'there was an error on validation process')
+    }, [])
+
     const handleFormSubmit = event => {
+        debugger
         event.preventDefault()
 
         const email = event.target.email.value
         const password = event.target.password.value
 
-        event.target.reset()
-        
-        tryThis(async () => {
-            signIn('credentials', { email, password })
+        tryThis(() => {
+            validatePassword(password)
+
+            event.target.reset()
+
+            tryThis(async () => {
+                signIn('credentials', { email, password, redirect: false })
+
+                router.push('./')
+            })
+        }, (error, handleFeedback) => {
+            handleFeedback('error', 'Invalid password', error.message)
         })
     }
 
@@ -61,14 +80,18 @@ export default withContext(function Login({ context: { tryThis }, providers, csr
 
 export async function getServerSideProps(ctx) {
     const { req, res } = ctx
-    
+
+    if (ctx.query.error)
+        return {
+            props: {
+                error: true,
+                providers: await getProviders(ctx),
+            }
+        }
+
+
     await verifyTokenAndRedirect(req, res)
 
-    return {
-        props: {
-            providers: await getProviders(ctx),
-            csrfToken: await getCsrfToken(ctx)
-        }
-    }
+    return { props: { providers: await getProviders(ctx) } }
 }
 

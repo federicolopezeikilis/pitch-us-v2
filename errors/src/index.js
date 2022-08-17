@@ -1,4 +1,4 @@
-const createCustomError = require('utils')
+const { createCustomError } = require('utils')
 const FormatError = createCustomError('FormatError')
 const AuthError = createCustomError('AuthError')
 const ConflictError = createCustomError('ConflictError')

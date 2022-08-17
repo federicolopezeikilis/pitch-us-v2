@@ -9,13 +9,19 @@ import { stringToUrl } from '../../../../utils'
 import { signOut } from 'next-auth/react';
 
 
-export default withContext(function Settings({ user, context: { handleFeedback } }) {
+export default withContext(function Settings({ user, context: { handleFeedback, tryThis } }) {
     const router = useRouter()
 
-    const onLogOutClick = () => {
-        handleFeedback('success', 'Log out', 'Redirecting to login page')
+    const handleLogout = () => {
+        tryThis(() => {
+            signOut({ redirect: false })
+            
+            handleFeedback('success', 'Logout', 'Redirecting to login page')
 
-        router.push('/logout')
+            router.push('/login')
+        }, (_, handleFeedback) => {
+            handleFeedback('error', 'Logout Error', 'there was an error on logout process')
+        })
     }
 
     return (
@@ -72,7 +78,7 @@ export default withContext(function Settings({ user, context: { handleFeedback }
                 <div className="w-full flex items-center justify-center">
                     <button
                         className="mt-14 text-myblue font-medium"
-                        onClick={() => signOut()}
+                        onClick={handleLogout}
                     >Log Out</button>
                 </div>
             </FlexColSection>
