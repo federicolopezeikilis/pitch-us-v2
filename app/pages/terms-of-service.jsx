@@ -40,7 +40,6 @@ export default function TermsOfService({ user }) {
                 <p>11. El Sitio se reserva el derecho de cancelar la cuenta del Usuario sin previo aviso y sin la obligación de dar explicaciones al Usuario excluido sobre las razones que llevaron a la cancelación de su cuenta. Dicha acción podrá darse esencialmente como consecuencia del no respeto a los presentes Términos y Condiciones.</p>
 
                 <p>12. El Visitante acepta el Servicio "tal cual es". El Sitio se compromete a mantener altos niveles de disponibilidad, pero en ningún momento podrá ser juzgado responsable de cualquier interrupción, ya sea temporal o permanente, del servicio. Los responsables del Sitio se reservan el derecho de clausurar parcial o totalmente el Sitio por razones técnicas, económicas o legales, sin tener obligación de explicar dichas razones a los Usuarios del Sitio.</p>
-
             </article>
         </FlexColSection>
 
