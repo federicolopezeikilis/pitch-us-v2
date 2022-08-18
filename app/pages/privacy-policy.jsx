@@ -33,7 +33,7 @@ export default function PrivacyPolicy({ user }) {
 
                 <h2 className="px-4 font-medium">¿Qué es una cookie?</h2>
 
-                <p className="px-4">Una  cookie es un pequeño fichero de datos que un sitio web solicita al navegador que guarde en la computadora o en el dispositivo móvil del usuario. Gracias a esa cookie, el sitio web puede "recordar" las acciones o preferencias del usuario con el paso del tiempo. La mayoría de los navegadores de internet admiten cookies; pero los usuarios pueden configurarlos para que no admitan determinados tipos de cookies o cookies específicas. Los usuarios también pueden eliminar las cookies en cualquier momento.</p>
+                <p className="px-4">Una  cookie es un pequeño fichero de datos que un sitio web solicita al navegador que guarde en la computadora o en el dispositivo móvil del usuario. Gracias a esa cookie, el sitio web puede &quotrecordar&quot las acciones o preferencias del usuario con el paso del tiempo. La mayoría de los navegadores de internet admiten cookies; pero los usuarios pueden configurarlos para que no admitan determinados tipos de cookies o cookies específicas. Los usuarios también pueden eliminar las cookies en cualquier momento.</p>
 
                 <p className="px-4">Las  cookies  permiten a un sitio web, entre otras cosas, almacenar y recuperar información sobre sus hábitos de navegación o de su equipo, y dependiendo de la información que contengan y de la forma en que utilice su equipo, pueden utilizarse para reconocerle.</p>
 
