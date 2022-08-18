@@ -12,7 +12,7 @@ export default function TermsOfService({ user }) {
         <Header className="pb-2" title="Terms of service" />
 
         <FlexColSection className="py-4 flex-1 overflow-y-auto items-center gap-4" >
-            <article className="p-4 flex flex-col gap-2">
+            <article className="px-4 flex flex-col gap-2">
                 <p>
                     El presente documento enumera los Términos y Condiciones del servicio ofrecido por el sitio Web pitch-us.vercel.app (El Sitio) a toda persona (el Visitante) que navegue por las páginas del mencionado sitio, así como a todo usuario registrado al sitio (el Usuario). Entiéndase por Servicio la consulta de toda página HTML perteneciente al dominio "pitch-us.vercel.app" (y sus respectivos sub-dominios) así como las herramientas de publicación de contenidos e intercambio de mensajes ofrecidas a todo usuario registrado. Todo Visitante deberá someterse a los Términos y Condiciones aquí enumerados. El no cumplimiento de dicha obligación podrá resultar en la cancelación pura y simple de la cuenta del Usuario.
                 </p>
