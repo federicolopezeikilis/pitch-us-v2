@@ -8,14 +8,13 @@ import { validatePassword } from "validators";
 
 export default withContext(function Login({ context: { tryThis, handleFeedback }, providers, error }) {
     const router = useRouter()
-    
+
     useEffect(() => {
         if (error)
             handleFeedback('error', 'Sign up error', 'there was an error on validation process')
     }, [])
 
     const handleFormSubmit = event => {
-        debugger
         event.preventDefault()
 
         const email = event.target.email.value
@@ -27,9 +26,15 @@ export default withContext(function Login({ context: { tryThis, handleFeedback }
             event.target.reset()
 
             tryThis(async () => {
-                signIn('credentials', { email, password, redirect: false })
+                const signInResult = await signIn('credentials', { email, password, redirect: false })
 
-                router.push('./')
+                if (signInResult.error) handleFeedback('error', 'Login failed', 'wrong credentials')
+                
+                else {
+                    handleFeedback('success', 'Login', 'successfully logged in')
+
+                    router.push('/')
+                }
             })
         }, (error, handleFeedback) => {
             handleFeedback('error', 'Invalid password', error.message)

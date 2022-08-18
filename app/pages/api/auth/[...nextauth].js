@@ -7,13 +7,10 @@ export const authOptions = {
     providers: [
         CredentialsProvider({
             name: 'PitchUs',
-            credentials: {
-                email: { label: "Email", type: "email", placeholder: "your email" },
-                password: { label: "Password", type: "password", placeholder: "at least 8 characters" }
-            },
-            async authorize(credentials) {
+            async authorize({email, password}) {
+                debugger
                 try {
-                    const token = await authenticateUser(credentials.email, credentials.password)
+                    const token = await authenticateUser(email, password)
 
                     return token
                 } catch (error) {

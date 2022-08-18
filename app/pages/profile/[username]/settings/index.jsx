@@ -13,8 +13,8 @@ export default withContext(function Settings({ user, context: { handleFeedback, 
     const router = useRouter()
 
     const handleLogout = () => {
-        tryThis(() => {
-            signOut({ redirect: false })
+        tryThis(async () => {
+            await signOut({ redirect: false })
             
             handleFeedback('success', 'Logout', 'Redirecting to login page')
 

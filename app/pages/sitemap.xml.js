@@ -19,7 +19,8 @@ export async function getServerSideProps({ res }) {
                 'artist',
                 'profile',
                 'logout.js',
-                'index.js'
+                'index.js',
+                'terms-of-service.js'
             ].includes(staticPage);
         })
         .map((staticPagePath) => {
