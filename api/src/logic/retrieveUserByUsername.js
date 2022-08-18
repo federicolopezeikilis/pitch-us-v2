@@ -1,9 +1,9 @@
-const { validateStringNotEmptyNoSpaces } = require('validators')
+const { validateStringNotEmptyOrBlank } = require('validators')
 const { NotFoundError } = require('errors')
 const { User } = require('../models')
 
 module.exports = async username => {
-    validateStringNotEmptyNoSpaces(username)
+    validateStringNotEmptyOrBlank(username)
 
     const user = await User.findOne({ username }).lean()
 

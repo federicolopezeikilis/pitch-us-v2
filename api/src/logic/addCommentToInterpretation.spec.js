@@ -1,6 +1,6 @@
 const { connect, disconnect, Types: { ObjectId } } = require('mongoose')
 const { User, Artist, Song, Interpretation } = require('../models')
-const { NotFoundError, AuthError, FormatError } = require('errors')
+const { NotFoundError, FormatError } = require('errors')
 const { addCommentToInterpretation } = require('.')
 const { expect } = require('chai')
 const { validateObjectId } = require('../validators')

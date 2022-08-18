@@ -3,6 +3,7 @@ const { verifyToken, handleErrorsAndRespond } = require('./helpers')
 
 module.exports = async (req, res) => {
     try {
+        debugger
         const userId = verifyToken(req)
 
         const { body: { name, genres, country }} = req

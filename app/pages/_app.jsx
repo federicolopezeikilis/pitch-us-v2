@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import Head from 'next/head'
-import { AppWrapper } from '../components';
+import { AppWrapper } from '../components'
+import { SessionProvider } from 'next-auth/react'
 
 if (typeof XMLHttpRequest === 'undefined') {
   var XMLHttpRequest = require('xhr2');
@@ -16,7 +17,9 @@ function MyApp({ Component, pageProps }) {
     </Head>
     <div className="box-border w-full h-full flex flex-col bg-white">
       <AppWrapper>
-        <Component {...pageProps} />
+        <SessionProvider session={pageProps.session}>
+          <Component {...pageProps} />
+        </SessionProvider>
       </AppWrapper>
     </div>
   </>

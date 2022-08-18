@@ -1,13 +1,13 @@
 import Link from 'next/link'
-import { Context, ChevronLeftImage, Fieldset, Input, Label, FlexColSection, Footer } from '../../../../components'
+import Head from 'next/head'
+import { withContext, ChevronLeftImage, Fieldset, Input, Label, FlexColSection, Footer } from '../../../../components'
 import { retrieveUser, updatePassword } from '../../../../logic'
 import { verifyTokenAndRedirect } from '../../../../helpers'
-import { useContext } from 'react'
 import { useRouter } from 'next/router'
-import Head from 'next/head'
+import { urlToString } from 'utils'
+import { stringToUrl } from '../../../../utils'
 
-export default function ChangePassword({ token, user }) {
-    const { handleFeedback } = useContext(Context)
+export default withContext(function ChangePassword({ token, user, context: { tryThis } }) {
     const router = useRouter()
 
     const onFormSubmit = async event => {
@@ -19,15 +19,13 @@ export default function ChangePassword({ token, user }) {
 
         event.target.reset()
 
-        try {
+        tryThis(async (handleFeedback) => {
             await updatePassword(token, oldPassword, password, repeatPassword)
 
             handleFeedback('success', 'Change password', 'Redirecting to settings page')
 
-            router.push('/profile/settings')
-        } catch (error) {
-            handleFeedback('error', 'Error', error.message)
-        }
+            router.push(`/profile/${stringToUrl(user.username, true)}/settings`)
+        })
     }
 
     return (
@@ -72,14 +70,21 @@ export default function ChangePassword({ token, user }) {
             <Footer page="user-session" user={user} />
         </>
     )
-}
+})
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res, params: { username } }) {
     const token = await verifyTokenAndRedirect(req, res)
 
     if (!token) return { props: {} }
 
     const user = await retrieveUser(token)
 
-    return { props: { token, user } }
+    if (urlToString(username) !== user.username) {
+        res.writeHead(307, { Location: `/profile/${user.username}/settings/change-password` })
+        res.end()
+
+        return { props: {} }
+    }
+
+    return { props: { user, token } }
 }

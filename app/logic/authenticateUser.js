@@ -5,6 +5,8 @@ export async function authenticateUser(email, password) {
     validateEmail(email)
     validatePassword(password)
 
+    debugger
+
     const api = new Apium(process.env.NEXT_PUBLIC_API_URL)
 
     const { status, payload } = await api.post(
@@ -16,7 +18,7 @@ export async function authenticateUser(email, password) {
             body: JSON.stringify({ email, password })
         })
 
-    const data = await JSON.parse(payload)
+    const data = JSON.parse(payload)
 
     if (status === 200) return data.token
 

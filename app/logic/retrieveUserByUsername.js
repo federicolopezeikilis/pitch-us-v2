@@ -1,8 +1,8 @@
-import { validateStringNotEmptyNoSpaces } from 'validators'
+import { validateStringNotEmptyOrBlank } from 'validators'
 import Apium from '../vendor/Apium'
 
 export async function retrieveUserByUsername(username) {
-    validateStringNotEmptyNoSpaces(username)
+    validateStringNotEmptyOrBlank(username)
 
     const api = new Apium(process.env.NEXT_PUBLIC_API_URL)
 

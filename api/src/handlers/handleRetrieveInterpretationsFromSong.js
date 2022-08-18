@@ -1,13 +1,14 @@
 const { retrieveInterpretationsFromSong } = require("../logic")
 const { handleErrorsAndRespond } = require("./helpers")
+const { urlToString } = require('utils')
 
 
 module.exports = async (req, res) => {
     try {
         let { params: { songName, artistName } } = req
 
-        songName = songName.split('-').join(' ')
-        artistName = artistName.split('-').join(' ')
+        songName = urlToString(songName)
+        artistName = urlToString(artistName)
 
         const interpretations = await retrieveInterpretationsFromSong(songName, artistName)
 

@@ -1,5 +1,6 @@
 export * from './registerUser'
 export * from './authenticateUser'
+export * from './authenticateOrRegisterUser'
 export * from './retrieveUser'
 export * from './retrieveUserByUsername'
 export * from './retrieveAllUsernames'

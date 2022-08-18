@@ -2,6 +2,7 @@ module.exports = {
     /* USERS */
     registerUser: require('./registerUser'),
     authenticateUser: require('./authenticateUser'),
+    authenticateOrRegisterUser: require('./authenticateOrRegisterUser'),
     userExists: require('./userExists'),
     updatePassword: require('./updatePassword'),
     retrieveUser: require('./retrieveUser'),
