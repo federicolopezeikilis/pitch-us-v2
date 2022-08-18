@@ -1,13 +1,12 @@
 import Link from 'next/link'
 import Head from 'next/head'
-import { Context, ChevronLeftImage, Fieldset, Input, Label, FlexColSection, Footer } from '../../../../components'
+import { withContext, ChevronLeftImage, Fieldset, Input, Label, FlexColSection, Footer } from '../../../../components'
 import { unregisterUser, retrieveUser } from '../../../../logic'
 import { verifyTokenAndRedirect } from '../../../../helpers'
-import { useContext } from 'react'
 import { useRouter } from 'next/router'
+import { urlToString } from 'utils'
 
-export default function DeleteAccount({ token, user }) {
-    const { handleFeedback } = useContext(Context)
+export default withContext(function DeleteAccount({ token, user, context: { tryThis } }) {
     const router = useRouter()
 
     const onFormSubmit = async event => {
@@ -18,15 +17,13 @@ export default function DeleteAccount({ token, user }) {
 
         event.target.reset()
 
-        try {
+        tryThis(async (handleFeedback) => {
             await unregisterUser(token, password, repeatPassword)
 
             handleFeedback('info', 'Delete Account', 'Looking forward to see you again')
 
             router.push('/logout')
-        } catch (error) {
-            handleFeedback('error', 'Error', error.message)
-        }
+        })
     }
 
     return (
@@ -67,14 +64,21 @@ export default function DeleteAccount({ token, user }) {
             <Footer page="user-session" user={user} />
         </>
     )
-}
+})
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res, params: { username } }) {
     const token = await verifyTokenAndRedirect(req, res)
 
     if (!token) return { props: {} }
 
     const user = await retrieveUser(token)
 
-    return { props: { token, user } }
+    if (urlToString(username) !== user.username) {
+        res.writeHead(307, { Location: `/profile/${user.username}/settings/delete-account` })
+        res.end()
+
+        return { props: {} }
+    }
+
+    return { props: { user, token } }
 }

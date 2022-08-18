@@ -1,20 +1,19 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { verifyTokenAndRedirect, returnFileSize } from '../../../../helpers'
-import { verifyFile } from '../../../../utils'
+import { verifyFile, stringToUrl } from '../../../../utils'
 import { updateUserImage, retrieveUser } from '../../../../logic'
-import { ButtonGreen, Context, FlexColSection, Footer, ChevronLeftImage } from '../../../../components'
+import { withContext, ButtonGreen, FlexColSection, Footer, ChevronLeftImage } from '../../../../components'
+import { urlToString } from 'utils'
 
-export default function UploadPhoto({ token, user }) {
+export default withContext(function UploadPhoto({ token, user, context: { tryThis } }) {
     const [file, setFile] = useState({ isTypeAllowed: true, isSizeAllowed: true, size: null })
     const [filePath, setFilePath] = useState(null)
     const [previewImage, setPreviewImage] = useState(null)
 
     const router = useRouter()
-
-    const { handleFeedback } = useContext(Context)
 
     const handleFileChange = event => {
         const fileUpload = event.target.files[0]
@@ -48,13 +47,13 @@ export default function UploadPhoto({ token, user }) {
 
         const fileUpload = event.target.profileImage.files[0]
 
-        try {
+        tryThis(async (handleFeedback) => {
             await updateUserImage(token, fileUpload)
 
-            router.push(`/profile/${user.username}/settings`)
-        } catch (error) {
-            handleFeedback('error', 'Error', error.message)
-        }
+            handleFeedback('success', 'Upload Photo', 'successfully uploaded')
+
+            router.push(`/profile/${stringToUrl(user.username, true)}/settings`)
+        })
     }
 
     return (
@@ -105,7 +104,9 @@ export default function UploadPhoto({ token, user }) {
                                     src={previewImage}
                                     className="w-28 h-28 rounded-full" />
                             </figure>
-                            <ButtonGreen className="w-fit" type="submit" active={true} >Send</ButtonGreen>
+                            <div className="w-1/5">
+                                <ButtonGreen type="submit" active={true} >Send</ButtonGreen>
+                            </div>
                         </div>
                     }
 
@@ -116,14 +117,21 @@ export default function UploadPhoto({ token, user }) {
 
         </>
     )
-}
+})
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res, params: { username } }) {
     const token = await verifyTokenAndRedirect(req, res)
 
     if (!token) return { props: {} }
 
     const user = await retrieveUser(token)
 
-    return { props: { token, user } }
+    if (urlToString(username) !== user.username) {
+        res.writeHead(307, { Location: `/profile/${user.username}/settings/upload-photo` })
+        res.end()
+
+        return { props: {} }
+    }
+
+    return { props: { user, token } }
 }

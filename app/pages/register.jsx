@@ -1,17 +1,17 @@
-import { useContext } from 'react'
-import Link from 'next/link'
 import Head from 'next/head'
+import Link from 'next/link'
 import { registerUser } from '../logic'
 import { useRouter } from 'next/router'
 import { verifyTokenAndRedirect } from '../helpers'
-import { FlexColSection, Logo, BlueAnchor, RegisterForm, Context } from '../components'
+import { withContext, FlexColSection, Logo, BlueAnchor, RegisterForm } from '../components'
+import { unstable_getServerSession } from 'next-auth/next'
+import { authOptions } from './api/auth/[...nextauth]'
 
-export default function Register() {
-    const { handleFeedback } = useContext(Context)
+export default withContext(function Register({ context: { tryThis } }) {
     const router = useRouter()
 
     const onFormSubmit = async event => {
-        try {
+        tryThis(async (handleFeedback) => {
             const email = event.target.email.value
             const username = event.target.username.value
             const password = event.target.password.value
@@ -22,9 +22,9 @@ export default function Register() {
             handleFeedback('success', 'Register', 'successfully registered')
 
             router.push('/login')
-        } catch (error) {
+        }, (error, handleFeedback) => {
             handleFeedback('error', 'Sign up failed', error.message)
-        }
+        })
     }
 
     return (
@@ -35,7 +35,12 @@ export default function Register() {
 
             <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center">
 
-                <Logo className="w-60 h-60 drop-shadow-custom-logo rounded-full bg-white" />
+                <Link href="/">
+                    <a>
+                        <Logo className="w-60 h-60 drop-shadow-custom-logo rounded-full bg-white" />
+                    </a>
+                </Link>
+
                 <RegisterForm className="px-4" onSubmit={onFormSubmit} />
                 <div className="w-full gap-2 flex justify-center">
                     <p className="text-myblack text-xs">Already have an account ?</p>
@@ -45,10 +50,12 @@ export default function Register() {
             </FlexColSection>
         </>
     )
-}
+})
 
 export async function getServerSideProps({ req, res }) {
-    await verifyTokenAndRedirect(req, res)
+    const session = await unstable_getServerSession(req, res, authOptions)
+
+    await verifyTokenAndRedirect(req, res, session)
 
     return { props: {} }
 }

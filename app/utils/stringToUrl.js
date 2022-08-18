@@ -1,7 +1,10 @@
 import { validateStringNotEmptyOrBlank } from "validators"
 
-export function stringToUrl(string) {
+export function stringToUrl(string, caseSensitive) {
     validateStringNotEmptyOrBlank(string, 'string to url')
 
-    return string.replaceAll(' ', '-').toLowerCase()
+    if(caseSensitive) 
+        return string.replaceAll(' ', '-')
+    else
+        return string.replaceAll(' ', '-').toLowerCase()
 }

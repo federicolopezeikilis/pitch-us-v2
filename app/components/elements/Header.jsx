@@ -1,5 +1,6 @@
-import { NotificationImage, SettingsImage } from '../../components'
 import Link from 'next/link'
+import { NotificationImage, SettingsImage } from '../../components'
+import { stringToUrl } from '../../utils'
 
 export function Header({ className, title, page, user, ...props }) {
     return (
@@ -14,7 +15,7 @@ export function Header({ className, title, page, user, ...props }) {
             } */}
 
             {user &&
-                <Link href={`/profile/${user.username}/settings`}>
+                <Link href={`/profile/${stringToUrl(user.username, true)}/settings`}>
                     <a>
                         <SettingsImage className="w-8 h-8 flex justify-center items-center" />
                     </a>

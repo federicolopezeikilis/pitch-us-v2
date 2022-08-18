@@ -2,7 +2,6 @@ const { User, Artist, Song, Comment, Interpretation } = require('../models')
 const { NotFoundError, ConflictError } = require('errors')
 const { validateStringNotEmptyOrBlank, validateObject } = require('validators')
 const { validateObjectId } = require('../validators')
-const { Types: { ObjectId } } = require('mongoose')
 
 module.exports = async (userId, songId, interpretationId, text) => {
     validateObjectId(userId)

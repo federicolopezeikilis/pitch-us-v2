@@ -10,13 +10,20 @@ const user = new Schema({
     },
     password: {
         type: String,
-        minLength: 8,
-        required: true
+        minLength: 8
     },
     email: {
         type: String,
         required: true,
         unique: true
+    },
+    provider: {
+        name: {
+            type: String
+        },
+        providerId: {
+            type: String
+        }
     },
     firstName: {
         type: String

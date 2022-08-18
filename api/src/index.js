@@ -8,6 +8,7 @@ const {
     /* USERS */
     handleRegisterUser,
     handleAuthenticateUser,
+    handleAuthenticateOrRegisterUser,
     handleUpdatePassword,
     handleRetrieveUser,
     handleRetrieveUserByUsername,
@@ -91,6 +92,7 @@ const { env: { MONGODB_URL, PORT = 8080 }, argv: [, , port = PORT] } = process
         /* USERS */
         routes.post('/users', jsonBodyParser, handleRegisterUser)
         routes.post('/users/auth', jsonBodyParser, handleAuthenticateUser)
+        routes.post('/users/auth/providers', jsonBodyParser, handleAuthenticateOrRegisterUser)
         routes.get('/users/auth', handleValidateToken)
         routes.patch('/users/auth', jsonBodyParser, handleUpdatePassword)
         routes.get('/users', handleRetrieveUser)
