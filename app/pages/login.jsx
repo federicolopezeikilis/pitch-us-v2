@@ -48,7 +48,7 @@ export default withContext(function Login({ context: { tryThis, handleFeedback }
                 <title>Login | PitchUs</title>
             </Head>
 
-            <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center">
+            <FlexColSection className="h-fit py-4 bg-primary gap-5 justify-center items-center">
                 <Link href="/">
                     <a>
                         <Logo className="w-60 h-60 drop-shadow-custom-logo rounded-full bg-white" />

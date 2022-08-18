@@ -33,7 +33,7 @@ export default withContext(function Register({ context: { tryThis } }) {
                 <title>Sign up | PitchUs</title>
             </Head>
 
-            <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center">
+            <FlexColSection className="h-fit py-4 bg-primary gap-5 justify-center items-center">
 
                 <Link href="/">
                     <a>
