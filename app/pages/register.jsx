@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import { registerUser } from '../logic'
 import { useRouter } from 'next/router'
 import { verifyTokenAndRedirect } from '../helpers'
@@ -10,7 +11,7 @@ export default withContext(function Register({ context: { tryThis } }) {
     const router = useRouter()
 
     const onFormSubmit = async event => {
-        tryThis(async(handleFeedback) => {
+        tryThis(async (handleFeedback) => {
             const email = event.target.email.value
             const username = event.target.username.value
             const password = event.target.password.value
@@ -34,7 +35,12 @@ export default withContext(function Register({ context: { tryThis } }) {
 
             <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center">
 
-                <Logo className="w-60 h-60 drop-shadow-custom-logo rounded-full bg-white" />
+                <Link href="/">
+                    <a>
+                        <Logo className="w-60 h-60 drop-shadow-custom-logo rounded-full bg-white" />
+                    </a>
+                </Link>
+
                 <RegisterForm className="px-4" onSubmit={onFormSubmit} />
                 <div className="w-full gap-2 flex justify-center">
                     <p className="text-myblack text-xs">Already have an account ?</p>

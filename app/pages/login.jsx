@@ -1,7 +1,8 @@
-import { useRouter } from "next/router";
-import { getProviders, signIn, getSession, getCsrfToken } from "next-auth/react";
-import { withContext, FlexColSection, Logo, LoginForm, BlueAnchor, ButtonGreen, DivLabelInput, Input, PasswordInput, Label, GoogleIcon } from '../components'
 import Head from 'next/head'
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { getProviders, signIn } from "next-auth/react";
+import { withContext, FlexColSection, Logo, LoginForm, BlueAnchor, GoogleIcon } from '../components'
 import { verifyTokenAndRedirect } from "../helpers";
 import { useEffect } from "react";
 import { validatePassword } from "validators";
@@ -29,7 +30,7 @@ export default withContext(function Login({ context: { tryThis, handleFeedback }
                 const signInResult = await signIn('credentials', { email, password, redirect: false })
 
                 if (signInResult.error) handleFeedback('error', 'Login failed', 'wrong credentials')
-                
+
                 else {
                     handleFeedback('success', 'Login', 'successfully logged in')
 
@@ -48,7 +49,11 @@ export default withContext(function Login({ context: { tryThis, handleFeedback }
             </Head>
 
             <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center">
-                <Logo className="w-60 h-60 drop-shadow-custom-logo rounded-full bg-white" />
+                <Link href="/">
+                    <a>
+                        <Logo className="w-60 h-60 drop-shadow-custom-logo rounded-full bg-white" />
+                    </a>
+                </Link>
                 <div className="w-full flex flex-col gap-14">
                     <div className="w-full flex flex-col gap-5">
                         <LoginForm className="px-4" onSubmit={handleFormSubmit} />

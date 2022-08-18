@@ -20,7 +20,8 @@ export async function getServerSideProps({ res }) {
                 'profile',
                 'logout.js',
                 'index.js',
-                'terms-of-service.js'
+                'terms-of-service.js',
+                'privacy-policy.js'
             ].includes(staticPage);
         })
         .map((staticPagePath) => {

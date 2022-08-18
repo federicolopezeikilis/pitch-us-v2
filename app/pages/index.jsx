@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import { FlexColSection, Footer, Header, Context, InterpretationProfileItem, List, ArtistSquareItem } from '../components'
 import { verifyTokenAndRedirect } from '../helpers'
 import { checkSpotifySession, getTopArtists, retrieveUser, retrieveLastInterpretationsOfFollowed, retrieveMostVisitedInterpretations, retrieveMostVisitedArtists } from '../logic'
@@ -65,6 +66,10 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
           </List>
         }
 
+        <div className="w-full mt-auto mb-4 flex justify-center gap-4">
+          <Link href="/terms-of-service"><a className="text-[8px] text-mygrey">Terms of service</a></Link>
+          <Link href="/privacy-policy"><a className="text-[8px] text-mygrey">Privacy Policy</a></Link>
+        </div>
       </FlexColSection >
 
       <Footer user={user} page='home' />
@@ -75,7 +80,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
 export async function getServerSideProps(ctx) {
   debugger
   const { req, res } = ctx
-    
+
   const token = await verifyTokenAndRedirect(req, res)
 
   const [mostVisitedInterpretations, mostVisitedArtists] = await Promise.all([retrieveMostVisitedInterpretations(), retrieveMostVisitedArtists()])
@@ -106,5 +111,5 @@ export async function getServerSideProps(ctx) {
       } else return { props: { isSessionActive, user, interpretationsOfFollowed, mostVisitedInterpretations, mostVisitedArtists } }
     }
 
-  } else return { props: { mostVisitedInterpretations, mostVisitedArtists } } 
+  } else return { props: { mostVisitedInterpretations, mostVisitedArtists } }
 }
