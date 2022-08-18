@@ -8,7 +8,6 @@ export const authOptions = {
         CredentialsProvider({
             name: 'PitchUs',
             async authorize({email, password}) {
-                debugger
                 try {
                     const token = await authenticateUser(email, password)
 
@@ -35,11 +34,13 @@ export const authOptions = {
         secret: process.env.NEXTAUTH_SECRET,
     },
     callbacks: {
-        async session({ session, user, token }) {
+        async session({ session, token }) {
+            console.log(`session function\nsession: ${session}\ntoken ${token}`)
             session.tokenFromApi = token.tokenFromApi
             return session
         },
         async jwt({ token, user, account, profile, isNewUser }) {
+            console.log(`jwt function\ntoken: ${token}\nuser: ${user}\naccount: ${account}\profile: ${profile}\nisNewUser: ${isNewUser}\n`)
             if (account && account.provider === 'credentials' && user)
                 token.tokenFromApi = user
 

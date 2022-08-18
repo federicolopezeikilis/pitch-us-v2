@@ -45,7 +45,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
         {mostVisitedArtists && mostVisitedArtists.length > 0 &&
           <List title='Most popular artists'>
             {mostVisitedArtists.map((artist, index) => {
-              return <ArtistSquareItem artist={artist} index={index} key={artist.id} />
+              return <ArtistSquareItem artist={artist} index={index + 3} key={artist.id}/>
             })}
           </List>
         }

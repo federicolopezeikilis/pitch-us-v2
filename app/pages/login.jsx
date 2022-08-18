@@ -12,7 +12,7 @@ export default withContext(function Login({ context: { tryThis, handleFeedback }
 
     useEffect(() => {
         if (error)
-            handleFeedback('error', 'Sign up error', 'there was an error on validation process')
+            handleFeedback('error', 'Sign up error', 'there was an error in validation process')
     }, [])
 
     const handleFormSubmit = event => {
