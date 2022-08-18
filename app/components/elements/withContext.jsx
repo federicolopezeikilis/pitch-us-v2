@@ -2,13 +2,13 @@ import { Context } from "../../components"
 import { useContext } from "react"
 
 export function withContext(Compo) {
-    const MyComp = (props) => {
+    const MyCompoTemp = (props) => {
         const context = useContext(Context)
 
         return <Compo {...props} context={context} />
     }
 
-    MyComp.displayName = 'none'
+    MyCompoTemp.displayName = 'none'
     
-    return myComp
+    return MyCompoTemp
 }
