@@ -6,7 +6,9 @@
 
 PitchUs is a social media for musicians who want to play and share song interpretations. It is created to encourage musicians to interact with each other and have the freedom to publish their interpretations with fewer restrictions.
 
-Deployed version is available [here](https://pitch-us.vercel.app)
+Deployed version of app is available [here](https://pitch-us.vercel.app)
+
+Deployed version of API is available in Heroku (https://pitch-us-api.herokuapp.com/api)
 
 ## Disclaimer
 
