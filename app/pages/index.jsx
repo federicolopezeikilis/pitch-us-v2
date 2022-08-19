@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { FlexColSection, Footer, Header, Context, InterpretationProfileItem, List, ArtistSquareItem } from '../components'
+import { FlexColSection, Footer, Header, Context, InterpretationProfileItem, List, ArtistSquareItem, SpotifyAnchor } from '../components'
 import { verifyTokenAndRedirect } from '../helpers'
 import { checkSpotifySession, getTopArtists, retrieveUser, retrieveLastInterpretationsOfFollowed, retrieveMostVisitedInterpretations, retrieveMostVisitedArtists } from '../logic'
 import { useContext, useState, useEffect } from 'react'
@@ -10,16 +10,17 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
 
   const { handleDialog } = useContext(Context)
 
-  const handleOnCloseDialog = () => setDialogOpen('close')
+  const handleClosedDialog = () => setDialogOpen('close')
 
   useEffect(() => {
     if (user && !dialogOpen && !isSessionActive) {
+
       handleDialog({
         title: 'Personalize your experience!',
         description: 'Connect now your Spotify account to easily find your favorites songs and artists.',
-        button1: 'Connect with Spotify',
+        button1: <SpotifyAnchor>Connect with Spotify</SpotifyAnchor>,
         button2: 'Not now',
-        onCloseDialog: handleOnCloseDialog
+        onClosedDialog: handleClosedDialog
       })
 
       setDialogOpen(true)

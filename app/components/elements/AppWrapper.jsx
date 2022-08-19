@@ -9,18 +9,16 @@ export function AppWrapper({ children }) {
         setFeedback({ level, title, description })
     }
 
-    const handleDialog = ({ level, title, description, button1, button2, onCloseDialog }) => {
-
-        setDialog({ level, title, description, button1, button2, onCloseDialog })
-    }
-
-    const handleCloseDialogClick = () => {
-        setDialog(null)
-    }
-
     const handleFeedbackTimeOut = () => setFeedback(null)
 
     const handleCloseFeedbackClick = () => setFeedback(null)
+
+    const handleDialog = ({ level, title, description, button1, button2, onClosedDialog }) => {
+
+        setDialog({ level, title, description, button1, button2, onClosedDialog })
+    }
+
+    const handleCloseDialogClick = () => setDialog(null)
 
     const tryThis = async (callback, handleError) => {  
         try {
@@ -39,7 +37,7 @@ export function AppWrapper({ children }) {
             {children}
             {feedback !== null && <Feedback level={feedback.level} title={feedback.title} description={feedback.description} onTimeout={handleFeedbackTimeOut} onCloseClick={handleCloseFeedbackClick} />}
 
-            {dialog !== null && <Dialog level={dialog.level} title={dialog.title} description={dialog.description} button1={dialog.button1} button2={dialog.button2} onButton1Click={dialog.onButton1Click} onCloseClick={handleCloseDialogClick} onCloseDialog={dialog.onCloseDialog} />}
+            {dialog !== null && <Dialog level={dialog.level} title={dialog.title} description={dialog.description} button1={dialog.button1} button2={dialog.button2} onButton1Click={dialog.onButton1Click} onCloseClick={handleCloseDialogClick} onClosedDialog={dialog.onClosedDialog} />}
         </Context.Provider>
     )
 }
