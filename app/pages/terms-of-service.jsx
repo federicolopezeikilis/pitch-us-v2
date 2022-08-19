@@ -6,7 +6,7 @@ import { verifyTokenAndRedirect } from '../helpers'
 export default function TermsOfService({ user }) {
     return <>
         <Head>
-            <title>Terms of service | PitchUs</title>
+            <title>Terms of service | Pitch us</title>
         </Head>
 
         <Header className="pb-2" title="Terms of service" />

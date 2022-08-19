@@ -59,7 +59,7 @@ export default withContext(function UploadPhoto({ token, user, context: { tryThi
     return (
         <>
             <Head>
-                <title>Upload profile photo or avatar | PitchUs</title>
+                <title>Upload profile photo or avatar | Pitch us</title>
             </Head>
 
             <header className="shadow-custom-items pt-7 px-4 pb-4">

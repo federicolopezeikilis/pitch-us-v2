@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState, useContext } from "react"
 import { Interpretation, ChordImages, Context, ChevronLeftImage, Footer, Slider, FlexColSection, SaveFavoriteImage, CircleChordButton, ExpandImage, RateYellowFullImage, RankInterpretationByUser } from '../../../../../../../components'
@@ -55,6 +56,9 @@ export default function InterpretationPage({ token, interpretation, user }) {
 
     return (
         <>
+        <Head>
+            <title>{songName} from {artistName} by {username} | Pitch us</title>
+        </Head>
             <div className={'flex flex-col h-full' + (chordView ? ' brightness-50' : '')}>
 
                 <header className="w-full bg-white pb-4 pr-4 pt-4 shadow-custom-items z-50">

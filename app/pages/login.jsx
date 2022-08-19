@@ -45,7 +45,7 @@ export default withContext(function Login({ context: { tryThis, handleFeedback }
     return (
         <>
             <Head>
-                <title>Login | PitchUs</title>
+                <title>Login | Pitch us</title>
             </Head>
 
             <FlexColSection className="h-fit py-4 bg-primary gap-5 justify-center items-center">

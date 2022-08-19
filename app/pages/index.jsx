@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { FlexColSection, Footer, Header, Context, InterpretationProfileItem, List, ArtistSquareItem } from '../components'
 import { verifyTokenAndRedirect } from '../helpers'
 import { checkSpotifySession, getTopArtists, retrieveUser, retrieveLastInterpretationsOfFollowed, retrieveMostVisitedInterpretations, retrieveMostVisitedArtists } from '../logic'
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 
 export default function Home({ isSessionActive, topArtists, user, interpretationsOfFollowed, mostVisitedInterpretations, mostVisitedArtists }) {
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -12,22 +12,24 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
 
   const handleOnCloseDialog = () => setDialogOpen('close')
 
-  if (user && !dialogOpen && !isSessionActive) {
-    handleDialog({
-      title: 'Personalize your experience!',
-      description: 'Connect now your Spotify account to easily find your favorites songs and artists.',
-      button1: 'Connect with Spotify',
-      button2: 'Not now',
-      onCloseDialog: handleOnCloseDialog
-    })
+  useEffect(() => {
+    if (user && !dialogOpen && !isSessionActive) {
+      handleDialog({
+        title: 'Personalize your experience!',
+        description: 'Connect now your Spotify account to easily find your favorites songs and artists.',
+        button1: 'Connect with Spotify',
+        button2: 'Not now',
+        onCloseDialog: handleOnCloseDialog
+      })
 
-    setDialogOpen(true)
-  }
+      setDialogOpen(true)
+    }
+  }, [])
 
   return (
     <>
       <Head>
-        <title>PitchUs | Explore chords of songs | Social media for musicians</title>
+        <title>Pitch us | Explore chords of songs | Social media for musicians</title>
       </Head>
 
       <Header title='Explore' />
@@ -45,7 +47,7 @@ export default function Home({ isSessionActive, topArtists, user, interpretation
         {mostVisitedArtists && mostVisitedArtists.length > 0 &&
           <List title='Most popular artists'>
             {mostVisitedArtists.map((artist, index) => {
-              return <ArtistSquareItem artist={artist} index={index + 3} key={artist.id}/>
+              return <ArtistSquareItem artist={artist} index={index + 3} key={artist.id} />
             })}
           </List>
         }

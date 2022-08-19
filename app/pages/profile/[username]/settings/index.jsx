@@ -27,7 +27,7 @@ export default withContext(function Settings({ user, context: { handleFeedback, 
     return (
         <>
             <Head>
-                <title>Profile settings | PitchUs</title>
+                <title>Profile settings | Pitch us</title>
             </Head>
 
             <Header title="Profile" />

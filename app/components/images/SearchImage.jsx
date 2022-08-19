@@ -10,8 +10,8 @@ export const SearchImage = ({ className, pageOn, color }) => {
                         :
                         '/media/search-off.svg'}
                 alt="Search link"
-                height={40}
-                width={40}
+                height={20}
+                width={20}
             />
         </figure>
     )

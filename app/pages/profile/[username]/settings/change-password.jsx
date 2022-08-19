@@ -31,7 +31,7 @@ export default withContext(function ChangePassword({ token, user, context: { try
     return (
         <>
             <Head>
-                <title>Change password | PitchUs</title>
+                <title>Change password | Pitch us</title>
             </Head>
 
             <header className="shadow-custom-items pt-7 px-4 pb-4">

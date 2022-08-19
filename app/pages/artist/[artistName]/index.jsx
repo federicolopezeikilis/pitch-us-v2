@@ -26,7 +26,7 @@ export default function Artist({ songs, user }) {
 
     return <>
         <Head>
-            <title>{artist} - chords from songs | PitchUs</title>
+            <title>{artist} - chords from songs | Pitch us</title>
         </Head>
 
         <header className="w-full bg-white p-4 gap-4 shadow-custom-items">

@@ -2,12 +2,12 @@ import Image from 'next/image'
 
 export const CreateInterpretationImage = ({ className, pageOn }) => {
     return (
-        <figure className={`h-10 w-10 ${className || ''}`}>
+        <figure className={`h-6 w-6 ${className || ''}`}>
             <Image
                 src={pageOn ? '/media/create-interpretation-on.svg' : '/media/create-interpretation-off.svg'}
                 alt="Create interpretation link"
-                height={40}
-                width={40}
+                height={20}
+                width={20}
             />
         </figure>
     )
