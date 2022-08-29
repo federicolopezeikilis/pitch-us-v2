@@ -12,7 +12,7 @@ Deployed version of API is available in Heroku (https://pitch-us-api.herokuapp.c
 
 ## Disclaimer
 
-- In this version, Spotify connection and authentication with Google provider are still in development phase. So that, who wants to try it, should be send me an email to federico.lopezeikili@gmail.com to be included in test users list.
+- In this version, Spotify connection and authentication with Google provider are still in development phase. So that, who wants to try it, should be send me an email to federico.lopezeikilis@gmail.com to be included in test users list.
 
 - Only mobile styles are available for now. 
 
