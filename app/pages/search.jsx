@@ -55,7 +55,7 @@ export default withContext(function Search({ user, context: { tryThis } }) {
 
     return <>
         <Head>
-            <title>Search chords and tab from artists and songs | PitchUs</title>
+            <title>Search chords and tab from artists and songs | Pitch Us</title>
         </Head>
 
         <Header className="pb-2" title="Search" />

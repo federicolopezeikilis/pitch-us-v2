@@ -156,7 +156,7 @@ export default withContext(function CreateInterpretation({ token, user, context:
     return (
         <>
             <Head>
-                <title>Create your own interpretation of a song | PitchUs</title>
+                <title>Create your own interpretation of a song | Pitch Us</title>
             </Head>
 
             {!preview ?

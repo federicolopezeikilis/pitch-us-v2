@@ -29,7 +29,7 @@ export default withContext(function DeleteAccount({ token, user, context: { tryT
     return (
         <>
             <Head>
-                <title>Delete account | PitchUs</title>
+                <title>Delete account | Pitch Us</title>
             </Head>
 
             <header className="shadow-custom-items pt-7 px-4 pb-4">

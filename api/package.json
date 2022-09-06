@@ -31,6 +31,7 @@
     "mongoose": "^6.3.5",
     "nodemon": "^2.0.16",
     "request": "^2.88.2",
+    "socket.io": "^4.5.1",
     "utils": "file:../utils",
     "validators": "file:../validators",
     "xhr": "^2.6.0",

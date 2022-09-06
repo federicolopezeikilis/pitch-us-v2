@@ -1,5 +1,11 @@
 require('dotenv').config()
 const express = require('express')
+const { createServer } = require('http')
+
+const { validateJWT } = require('validators')
+const { retrieveUser, addMessageToChat, retrieveChat, retrieveBothFollowingsAndFollowers } = require('./logic')
+const { verify } = require('jsonwebtoken')
+
 const bodyParser = require('body-parser')
 const admin = require("firebase-admin")
 const serviceAccount = require("./config/firebase-key.json")
@@ -11,6 +17,7 @@ const {
     handleAuthenticateOrRegisterUser,
     handleUpdatePassword,
     handleRetrieveUser,
+    handleRetrieveBothFollowingsAndFollowers,
     handleRetrieveUserByUsername,
     handleRetrieveAllUsernames,
     handleRetrieveInterpretationsOfUser,
@@ -19,6 +26,10 @@ const {
     handleGetUserImage,
     handleToggleFollow,
     handleUnregisterUser,
+
+    /* MESSAGE */
+    handleAddMessageToChat,
+    handleRetrieveChat,
 
     /* TOKEN */
     handleValidateToken,
@@ -59,6 +70,7 @@ const {
 
 var XMLHttpRequest = require('xhr2');
 
+
 global.XMLHttpRequest = XMLHttpRequest
 
 admin.initializeApp({
@@ -74,8 +86,83 @@ const { env: { MONGODB_URL, PORT = 8080 }, argv: [, , port = PORT] } = process
         console.log(`DB connected on ${MONGODB_URL}`)
 
         const api = express()
+        const server = createServer(api)
+        const io = require("socket.io")(server, {
+            cors: {
+                origin: '*',
+                methods: ["GET", "POST"]
+            }
+        })
 
-        api.use((req, res, next) => {
+        io.use(async (socket, next) => {
+            try {
+                const { handshake: { auth: { token } } } = socket
+
+                validateJWT(token)
+
+                const { sub: userId } = verify(token, process.env.JWT_SECRET)
+
+                const { username, id } = await retrieveUser(userId)
+
+                socket.user = { username, userId: id }
+
+                next()
+            } catch (error) {
+                next(error)
+            }
+        })
+
+        io.on('connection', async (socket) => {
+            const { user: { username, userId } } = socket
+
+            console.log(`user with username ${username} connected`)
+
+            const usersFollows = await retrieveBothFollowingsAndFollowers(userId)
+
+            const users = []
+
+            for (let [id, socket] of io.of('/').sockets) {
+                const areUsersFollowEachOther = usersFollows.some(user => user.id === socket.user.userId)
+
+                if(areUsersFollowEachOther) {
+                    users.push({
+                        socketId: id,
+                        username: socket.user.username,
+                        userId: socket.user.userId
+                    })
+                }
+            }
+
+            socket.emit('users', users)
+
+            for(let {socketId} of users) {
+                socket.to(socketId).emit('user connected', {
+                    socketId: socket.id,
+                    userId: socket.user.userId,
+                    username: socket.user.username
+                })
+            }
+
+
+
+            // socket.on('chatFromApp', async ({ to, text }) => {
+            //     console.log(`a chat was received from user with id ${userId} to user with id ${to} with this text: ${text}`)
+
+            //     await addMessageToChat(userId, to, text)
+
+            //     const chat = await retrieveChat(userId, to)
+
+            //     io.emit('resRetrieveChat', chat)
+            // })
+
+            socket.on('reqRetrieveChat', async ({ to }) => {
+                const chat = await retrieveChat(userId, to)
+
+                io.emit('resRetrieveChat', chat)
+            })
+        })
+
+        api.use((_, res, next) => {
             res.setHeader('Access-Control-Allow-Headers', '*')
             res.setHeader('Access-Control-Allow-Methods', '*')
             res.setHeader('Access-Control-Allow-Origin', '*')
@@ -96,6 +183,7 @@ const { env: { MONGODB_URL, PORT = 8080 }, argv: [, , port = PORT] } = process
         routes.get('/users/auth', handleValidateToken)
         routes.patch('/users/auth', jsonBodyParser, handleUpdatePassword)
         routes.get('/users', handleRetrieveUser)
+        routes.get('/users/follows', handleRetrieveBothFollowingsAndFollowers)
         routes.get('/users/:username/profile', handleRetrieveUserByUsername)
         routes.get('/users/all', handleRetrieveAllUsernames)
         routes.get('/users/:userId/interpretations', handleRetrieveInterpretationsOfUser)
@@ -105,11 +193,15 @@ const { env: { MONGODB_URL, PORT = 8080 }, argv: [, , port = PORT] } = process
         routes.post('/users/:userIdToFollowOrUnfollow/follow', handleToggleFollow)
         routes.delete('/users', jsonBodyParser, handleUnregisterUser)
 
+        /* CHAT */
+        routes.post('/chat', jsonBodyParser, handleAddMessageToChat)
+        routes.get('/chat/:userToChatId', handleRetrieveChat)
+
         /* ARTISTS */
         routes.post('/artists', jsonBodyParser, handleCreateArtist)
         routes.get('/artists', handlefindArtists)
         routes.post('/artists/top', jsonBodyParser, handleGetTopArtists),
-        routes.get('/artists/most-visited', handleRetrieveMostVisitedArtists)
+            routes.get('/artists/most-visited', handleRetrieveMostVisitedArtists)
         routes.get('/artists/all', handleRetrieveAllArtistsWithSongs)
 
         /* SONGS */
@@ -117,14 +209,14 @@ const { env: { MONGODB_URL, PORT = 8080 }, argv: [, , port = PORT] } = process
         routes.get('/songs', handlefindSongs)
         routes.get('/artists/:artistName/songs/:songName', handleRetrieveSong)
         routes.get('/artists/:artistName/songs', handleRetrieveSongsOfArtist)
-       
+
         /* INTERPRETATIONS */
         routes.post('/songs/:songId/interpretations', jsonBodyParser, handleAddInterpretationToSong)
         routes.get('/artists/:artistName/songs/:songName/interpretations', handleRetrieveInterpretationsFromSong)
         routes.get('/artists/:artistNae/songs/:songName/interpretations/:interpretationId', handleRetrieveInterpretationFromSong)
         routes.get('/interpretations/followed', handleRetrieveLastInterpretationsOfFollowed)
         routes.get('/interpretations/most-visited', handleRetrieveMostVisitedInterpretations)
-        
+
         /* ARTISTS AND SONGS */
         routes.get('/search', handleFindArtistsSongsAndUsers)
 
@@ -138,7 +230,7 @@ const { env: { MONGODB_URL, PORT = 8080 }, argv: [, , port = PORT] } = process
         /* SPOTIFY */
         routes.post('/spotify/auth', jsonBodyParser, handleCheckSpotifySession)
 
-        api.listen(port, () => console.log(`API running on port ${port}`))
+        server.listen(port, () => console.log(`API running on port ${port}`))
 
         process.on('SIGINT', async () =>
             disconnect()

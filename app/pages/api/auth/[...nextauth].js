@@ -6,7 +6,7 @@ import { authenticateUser, authenticateOrRegisterUser } from '../../../logic'
 export const authOptions = {
     providers: [
         CredentialsProvider({
-            name: 'PitchUs',
+            name: 'Pitch Us',
             async authorize({email, password}) {
                 debugger
                 try {

@@ -4,5 +4,6 @@ module.exports = {
     song: require('./song'),
     interpretation: require('./interpretation'),
     comment: require('./comment'),
-    rank: require('./rank')
+    rank: require('./rank'),
+    chat: require('./chat')
 }

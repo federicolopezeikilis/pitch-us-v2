@@ -12,7 +12,7 @@ if (typeof XMLHttpRequest === 'undefined') {
 function MyApp({ Component, pageProps }) {
   return <>
     <Head>
-      <title>PitchUs</title>
+      <title>Pitch Us</title>
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1" />
     </Head>
     <div className="box-border w-full h-full flex flex-col bg-white">

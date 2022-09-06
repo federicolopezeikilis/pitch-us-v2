@@ -11,6 +11,6 @@ module.exports = async (req, res) => {
 
         res.status(201).json({ commentId })
     } catch (error) {
-        handleErrorsAndRespond(error, response)
+        handleErrorsAndRespond(error, res)
     }
 }

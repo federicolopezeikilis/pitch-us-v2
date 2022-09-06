@@ -7,7 +7,7 @@ import { verifyTokenAndRedirect } from '../helpers'
 export default function PrivacyPolicy({ user }) {
     return <>
         <Head>
-            <title>Privacy Policy | PitchUs</title>
+            <title>Privacy Policy | Pitch Us</title>
         </Head>
 
         <Header className="pb-2" title="Privacy Policy" />

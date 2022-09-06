@@ -29,7 +29,7 @@ export default withContext(function EditProfile({ token, user, context: { tryThi
     return (
         <>
             <Head>
-                <title>Edit profile | PitchUs</title>
+                <title>Edit profile | Pitch Us</title>
             </Head>
 
             <header className="shadow-custom-items pt-7 px-4 pb-4">

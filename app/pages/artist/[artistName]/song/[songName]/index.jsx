@@ -28,7 +28,7 @@ export default function Song({ interpretations, user }) {
 
     return <>
         <Head>
-            <title>{songName} - chords and tabs - {artistName} | PitchUs</title>
+            <title>{songName} - chords and tabs - {artistName} | Pitch Us</title>
         </Head>
 
         <header className="w-full bg-white p-4 gap-4 shadow-custom-items z-50">

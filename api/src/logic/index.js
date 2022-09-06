@@ -6,6 +6,7 @@ module.exports = {
     userExists: require('./userExists'),
     updatePassword: require('./updatePassword'),
     retrieveUser: require('./retrieveUser'),
+    retrieveBothFollowingsAndFollowers: require('./retrieveBothFollowingsAndFollowers'),
     retrieveUserByUsername: require('./retrieveUserByUsername'),
     retrieveAllUsernames: require('./retrieveAllUsernames'),
     retrieveInterpretationsOfUser: require('./retrieveInterpretationsOfUser'),
@@ -14,6 +15,10 @@ module.exports = {
     toggleFollow: require('./toggleFollow'),
     getUserImage: require('./getUserImage'),
     unregisterUser: require('./unregisterUser'),
+
+    /* CHAT */
+    addMessageToChat: require('./addMessageToChat'),
+    retrieveChat: require('./retrieveChat'),
 
     /* ARTISTS */
     createArtist: require('./createArtist'),

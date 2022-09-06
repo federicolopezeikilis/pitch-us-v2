@@ -36,7 +36,7 @@ export default withContext(function UserProfile({ token, userProfile, isOwnProfi
     return (
         <>
             <Head>
-                <title>{userProfile.username} profile | PitchUs</title>
+                <title>{userProfile.username} profile | Pitch Us</title>
             </Head>
 
             <Header title="Profile" user={isOwnProfile ? user : null} />

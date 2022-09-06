@@ -45,7 +45,7 @@ export default withContext(function Login({ context: { tryThis, handleFeedback }
     return (
         <>
             <Head>
-                <title>Login | PitchUs</title>
+                <title>Login | Pitch Us</title>
             </Head>
 
             <FlexColSection className="h-full py-4 bg-primary gap-5 justify-center items-center">
@@ -71,7 +71,7 @@ export default withContext(function Login({ context: { tryThis, handleFeedback }
 
                     <div className="w-full px-4">
                         {Object.values(providers).map(provider => {
-                            if (provider.name !== 'PitchUs')
+                            if (provider.name !== 'Pitch Us')
                                 return (
                                     <button key={provider.name}
                                         className="w-full border border-[#4285F4] rounded-[4px] flex justify-center items-center py-4 gap-2"

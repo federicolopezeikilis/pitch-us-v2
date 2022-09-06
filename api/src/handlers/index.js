@@ -7,6 +7,7 @@ module.exports = {
     handleAuthenticateOrRegisterUser: require('./handleAuthenticateOrRegisterUser'),
     handleUpdatePassword: require('./handleUpdatePassword'),
     handleRetrieveUser: require('./handleRetrieveUser'),
+    handleRetrieveBothFollowingsAndFollowers: require('./handleRetrieveBothFollowingsAndFollowers'),
     handleRetrieveUserByUsername: require('./handleRetrieveUserByUsername'),
     handleRetrieveAllUsernames: require('./handleRetrieveAllUsernames'),
     handleRetrieveInterpretationsOfUser: require('./handleRetrieveInterpretationsOfUser'),
@@ -18,6 +19,10 @@ module.exports = {
 
     /* VALIDATE TOKEN */
     handleValidateToken: require('./handleValidateToken'),
+
+    /* CHAT */
+    handleAddMessageToChat: require('./handleAddMessageToChat'),
+    handleRetrieveChat: require('./handleRetrieveChat'),
 
     /* ARTISTS */
     handleCreateArtist: require('./handleCreateArtist'),
